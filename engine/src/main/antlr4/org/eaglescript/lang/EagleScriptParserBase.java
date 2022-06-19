@@ -41,16 +41,16 @@ public abstract class EagleScriptParserBase extends Parser
     }
 
     protected boolean notLineTerminator() {
-        return !here(JavaScriptParser.LineTerminator);
+        return !here(EagleScriptParser.LineTerminator);
     }
 
     protected boolean notOpenBraceAndNotFunction() {
         int nextTokenType = _input.LT(1).getType();
-        return nextTokenType != JavaScriptParser.OpenBrace && nextTokenType != JavaScriptParser.Function_;
+        return nextTokenType != EagleScriptParser.OpenBrace && nextTokenType != EagleScriptParser.Function_;
     }
 
     protected boolean closeBrace() {
-        return _input.LT(1).getType() == JavaScriptParser.CloseBrace;
+        return _input.LT(1).getType() == EagleScriptParser.CloseBrace;
     }
 
     /**
@@ -99,12 +99,12 @@ public abstract class EagleScriptParserBase extends Parser
             return false;
         }
 
-        if (ahead.getType() == JavaScriptParser.LineTerminator) {
+        if (ahead.getType() == EagleScriptParser.LineTerminator) {
             // There is definitely a line terminator ahead.
             return true;
         }
 
-        if (ahead.getType() == JavaScriptParser.WhiteSpaces) {
+        if (ahead.getType() == EagleScriptParser.WhiteSpaces) {
             // Get the token ahead of the current whitespaces.
             possibleIndexEosToken = this.getCurrentToken().getTokenIndex() - 2;
             ahead = _input.get(possibleIndexEosToken);
@@ -115,7 +115,7 @@ public abstract class EagleScriptParserBase extends Parser
         int type = ahead.getType();
 
         // Check if the token is, or contains a line terminator.
-        return (type == JavaScriptParser.MultiLineComment && (text.contains("\r") || text.contains("\n"))) ||
-                (type == JavaScriptParser.LineTerminator);
+        return (type == EagleScriptParser.MultiLineComment && (text.contains("\r") || text.contains("\n"))) ||
+                (type == EagleScriptParser.LineTerminator);
     }
 }

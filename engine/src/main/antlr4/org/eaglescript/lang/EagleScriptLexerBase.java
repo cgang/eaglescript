@@ -97,7 +97,7 @@ public abstract class EagleScriptLexerBase extends Lexer
 
     protected void ProcessStringLiteral()
     {
-        if (lastToken == null || lastToken.getType() == JavaScriptLexer.OpenBrace)
+        if (lastToken == null || lastToken.getType() == EagleScriptLexer.OpenBrace)
         {
             String text = getText();
             if (text.equals("\"use strict\"") || text.equals("'use strict'"))
@@ -130,18 +130,18 @@ public abstract class EagleScriptLexerBase extends Lexer
         }
 
         switch (this.lastToken.getType()) {
-            case JavaScriptLexer.Identifier:
-            case JavaScriptLexer.NullLiteral:
-            case JavaScriptLexer.BooleanLiteral:
-            case JavaScriptLexer.This:
-            case JavaScriptLexer.CloseBracket:
-            case JavaScriptLexer.CloseParen:
-            case JavaScriptLexer.OctalIntegerLiteral:
-            case JavaScriptLexer.DecimalLiteral:
-            case JavaScriptLexer.HexIntegerLiteral:
-            case JavaScriptLexer.StringLiteral:
-            case JavaScriptLexer.PlusPlus:
-            case JavaScriptLexer.MinusMinus:
+            case EagleScriptLexer.Identifier:
+            case EagleScriptLexer.NullLiteral:
+            case EagleScriptLexer.BooleanLiteral:
+            case EagleScriptLexer.This:
+            case EagleScriptLexer.CloseBracket:
+            case EagleScriptLexer.CloseParen:
+            case EagleScriptLexer.OctalIntegerLiteral:
+            case EagleScriptLexer.DecimalLiteral:
+            case EagleScriptLexer.HexIntegerLiteral:
+            case EagleScriptLexer.StringLiteral:
+            case EagleScriptLexer.PlusPlus:
+            case EagleScriptLexer.MinusMinus:
                 // After any of the tokens above, no regex literal can follow.
                 return false;
             default:
