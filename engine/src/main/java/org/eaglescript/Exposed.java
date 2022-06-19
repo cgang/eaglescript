@@ -15,5 +15,5 @@ public @interface Exposed {
      * The exposed name available to script.
      * @return a name to be used by script.
      */
-    String name();
+    String name() default "";
 }

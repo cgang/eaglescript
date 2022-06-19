@@ -1,5 +1,7 @@
 package org.eaglescript.util;
 
+import org.eaglescript.Exposed;
+
 import java.util.StringJoiner;
 
 /**
@@ -7,8 +9,9 @@ import java.util.StringJoiner;
  * It's intended to be exposed as 'console' object to script.
  */
 public class Console {
-    public void print(Object[] arguments) {
-        StringJoiner sj = new StringJoiner(", ");
+    @Exposed
+    public void log(Object[] arguments) {
+        StringJoiner sj = new StringJoiner(" ");
         for (Object arg : arguments) {
             sj.add(String.valueOf(arg));
         }
