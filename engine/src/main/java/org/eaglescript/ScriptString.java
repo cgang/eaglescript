@@ -7,6 +7,11 @@ import java.util.Objects;
  */
 public class ScriptString extends ScriptObject {
     private static final long serialVersionUID = 1041585289831197894L;
+
+    public static boolean isString(Object object) {
+        return object instanceof String || object instanceof ScriptString;
+    }
+
     private final String value;
 
     public ScriptString(String value) {
