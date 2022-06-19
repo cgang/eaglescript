@@ -1,5 +1,7 @@
 package org.eaglescript;
 
+import org.eaglescript.vm.ScriptAwareException;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -62,5 +64,14 @@ public class OrdinaryObject extends ScriptObject {
             props.add(new Property(entry.getKey(), entry.getValue()));
         }
         return props;
+    }
+
+    @Override
+    public Object toJavaObject(Class<?> type) throws ScriptAwareException {
+        Map<String, Object> result = new LinkedHashMap<>();
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            result.put(entry.getKey(), ScriptObject.toJava(entry.getValue(), Object.class));
+        }
+        return result;
     }
 }

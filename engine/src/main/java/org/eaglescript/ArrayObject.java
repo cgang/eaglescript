@@ -1,5 +1,7 @@
 package org.eaglescript;
 
+import org.eaglescript.vm.ScriptAwareException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,8 +34,21 @@ public class ArrayObject extends ScriptObject {
         return list.get(index);
     }
 
+    public void set(int index, Object value) {
+        list.set(index, value);
+    }
+
     @Override
     public void set(Object key, Object value) {
 
+    }
+
+    @Override
+    public List<Object> toJavaObject(Class<?> type) throws ScriptAwareException {
+        List<Object> result = new ArrayList<>(list);
+        for (Object object : list) {
+            result.add(ScriptObject.toJava(object, Object.class));
+        }
+        return result;
     }
 }

@@ -24,6 +24,11 @@ public class ScriptString extends ScriptObject {
     }
 
     @Override
+    public Object toJavaObject(Class<?> type) {
+        return value;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

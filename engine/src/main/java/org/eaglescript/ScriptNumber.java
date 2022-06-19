@@ -38,6 +38,21 @@ public class ScriptNumber extends ScriptObject {
     }
 
     @Override
+    public Object toJavaObject(Class<?> type) {
+        if (long.class.equals(type) || Long.class.equals(type)) {
+            return (long) value;
+        } else if (int.class.equals(type) || Integer.class.equals(type)) {
+            return (int) value;
+        } else if (short.class.equals(type) || Short.class.equals(type)) {
+            return (short) value;
+        } else if (float.class.equals(type) || Float.class.equals(type)) {
+            return (float) value;
+        } else {
+            return value;
+        }
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
