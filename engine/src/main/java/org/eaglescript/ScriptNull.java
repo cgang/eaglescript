@@ -1,10 +1,10 @@
 package org.eaglescript;
 
 public class ScriptNull extends ScriptObject {
-    public static final String NULL = "null";
+    public static final ScriptNull NULL = new ScriptNull();
 
     @Override
     public String toString() {
-        return NULL;
+        return "null";
     }
 }

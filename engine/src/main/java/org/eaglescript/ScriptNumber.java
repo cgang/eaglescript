@@ -17,7 +17,7 @@ public class ScriptNumber extends ScriptObject {
         }
     }
 
-    static String toString(double value) {
+    public static String toString(double value) {
         long ints = (long) value;
         return (ints == value) ? Long.toString(ints) : Double.toString(value);
     }
