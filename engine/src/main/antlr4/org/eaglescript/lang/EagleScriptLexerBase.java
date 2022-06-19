@@ -8,7 +8,7 @@ import java.util.Stack;
  * All lexer methods that used in grammar (IsStrictMode)
  * should start with Upper Case Char similar to Lexer rules.
  */
-public abstract class JavaScriptLexerBase extends Lexer
+public abstract class EagleScriptLexerBase extends Lexer
 {
     /**
      * Stores values of nested modes. By default mode is strict or
@@ -38,7 +38,7 @@ public abstract class JavaScriptLexerBase extends Lexer
      */
     private int templateDepth = 0;
 
-    public JavaScriptLexerBase(CharStream input) {
+    public EagleScriptLexerBase(CharStream input) {
         super(input);
     }
 
