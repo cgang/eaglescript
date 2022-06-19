@@ -28,11 +28,11 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  */
-lexer grammar JavaScriptLexer;
+lexer grammar EagleScriptLexer;
 
 channels { ERROR }
 
-options { superClass=JavaScriptLexerBase; }
+options { superClass=EagleScriptLexerBase; }
 
 HashBangLine:                   { this.IsStartOfFile()}? '#!' ~[\r\n\u2028\u2029]*; // only allowed at start
 MultiLineComment:               '/*' .*? '*/'             -> channel(HIDDEN);

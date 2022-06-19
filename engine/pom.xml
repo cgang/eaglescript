@@ -46,6 +46,8 @@
             <argument>-package</argument>
             <argument>org.eaglescript.lang</argument>
           </arguments>
+          <listener>false</listener>
+          <visitor>true</visitor>
         </configuration>
         <executions>
           <execution>
