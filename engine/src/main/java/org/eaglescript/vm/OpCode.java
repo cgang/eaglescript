@@ -6,11 +6,11 @@ import java.lang.reflect.Modifier;
 /**
  * Instructions inspired by java virtual machine design.
  */
-class OpCode {
+public class OpCode {
     /**
      * Do nothing.
      */
-    static final int NOP = 0;
+    public static final int NOP = 0;
 
     /**
      * Load reference from variable.
@@ -22,7 +22,7 @@ class OpCode {
      * ..., objectref
      * </pre>
      */
-    static final int LOAD = 0x10;
+    public static final int LOAD = 0x10;
     /**
      * Store reference to variable.
      * Format:
@@ -33,19 +33,30 @@ class OpCode {
      * ...,
      * </pre>
      */
-    static final int STORE = 0x11;
+    public static final int STORE = 0x11;
 
+    /**
+     * Load a constant value.
+     * Format:
+     * <pre>LOAD_CONST index</pre>
+     * Operand stack:
+     * <pre>
+     * ..., ->
+     * ..., const
+     * </pre>
+     */
+    public static final int LOAD_CONST = 0x12;
     /**
      * Goto code position with specified offset.
      * Format:
      * <pre>GOTO offset</pre>
      * Operand stack unaffected.
      */
-    static final int GOTO = 0x20;
+    public static final int GOTO = 0x20;
 
-    static final int IF_TRUE = 0x21;
+    public static final int IF_TRUE = 0x21;
 
-    static final int IF_FALSE = 0x22;
+    public static final int IF_FALSE = 0x22;
 
     /**
      * Un-determined plus operation, concatenation or arithmetic addition.
@@ -57,7 +68,7 @@ class OpCode {
      * ..., result
      * </pre>
      */
-    static final int PLUS = 0x2F;
+    public static final int PLUS = 0x2F;
 
     /**
      * Arithmetic addition.
@@ -69,7 +80,7 @@ class OpCode {
      * ..., result
      * </pre>
      */
-    static final int ADD = 0x30;
+    public static final int ADD = 0x30;
     /**
      * Arithmetic subtraction.
      * Format:
@@ -80,7 +91,7 @@ class OpCode {
      * ..., result
      * </pre>
      */
-    static final int SUB = 0x31;
+    public static final int SUB = 0x31;
     /**
      * Arithmetic multiplication.
      * Format:
@@ -91,7 +102,7 @@ class OpCode {
      * ..., result
      * </pre>
      */
-    static final int MUL = 0x32;
+    public static final int MUL = 0x32;
     /**
      * Arithmetic division.
      * Format:
@@ -102,7 +113,7 @@ class OpCode {
      * ..., result
      * </pre>
      */
-    static final int DIV = 0x33;
+    public static final int DIV = 0x33;
     /**
      * Negate a number.
      * Format:
@@ -113,7 +124,7 @@ class OpCode {
      * ..., result
      * </pre>
      */
-    static final int NEG = 0x34;
+    public static final int NEG = 0x34;
     /**
      * Duplicate the top operand stack value.
      * Format:
@@ -124,7 +135,7 @@ class OpCode {
      * ..., value, value
      * </pre>
      */
-    static final int DUP = 0x35;
+    public static final int DUP = 0x35;
     /**
      * Duplicate the top operand stack value and insert two values down.
      * Format:
@@ -135,7 +146,7 @@ class OpCode {
      * ..., value1, value2, value1
      * </pre>
      */
-    static final int DUP_X1 = 0x36;
+    public static final int DUP_X1 = 0x36;
     /**
      * Duplicate the top operand stack value and insert three values down.
      * Format:
@@ -146,7 +157,7 @@ class OpCode {
      * ..., value1, value3, value2, value1
      * </pre>
      */
-    static final int DUP_X2 = 0x37;
+    public static final int DUP_X2 = 0x37;
     /**
      * Pop the top operand stack value.
      * Format:
@@ -157,7 +168,7 @@ class OpCode {
      * ...,
      * </pre>
      */
-    static final int POP = 0x38;
+    public static final int POP = 0x38;
     /**
      * Swap the top two operand stack values.
      * Format:
@@ -168,7 +179,7 @@ class OpCode {
      * ..., value1, value2
      * </pre>
      */
-    static final int SWAP = 0x39;
+    public static final int SWAP = 0x39;
 
     static final int SIMPLE = 0xA0;
 
@@ -182,7 +193,7 @@ class OpCode {
      * ...,
      * </pre>
      */
-    static final int INVOKE = 0xA1;
+    public static final int INVOKE = 0xA1;
 
     /**
      * Throw an error.
@@ -195,7 +206,7 @@ class OpCode {
      * </pre>
      * The operand stack should be empty after throw.
      */
-    static final int THROW = 0xA2;
+    public static final int THROW = 0xA2;
     /**
      * Return to caller.
      * Format:
@@ -206,15 +217,13 @@ class OpCode {
      * </pre>
      * The operand stack should be empty after return.
      */
-    static final int RETURN = 0xEF;
+    public static final int RETURN = 0xEF;
 
     static String[] computeNames() {
         String[] names = new String[0x100];
         for (Field field : OpCode.class.getDeclaredFields()) {
-            if ("SIMPLE".equals(field.getName())) {
-                continue;
-            }
-            if (field.getType().equals(int.class) && Modifier.isStatic(field.getModifiers())) {
+            int mod = field.getModifiers();
+            if (Modifier.isStatic(mod) && Modifier.isPublic(mod) && field.getType().equals(int.class)) {
                 try {
                     int value = field.getInt(null);
                     if (value > 0 && value < names.length) {
