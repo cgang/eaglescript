@@ -6,7 +6,7 @@ import java.lang.reflect.Modifier;
 /**
  * Instructions inspired by java virtual machine design.
  */
-class Instructions {
+class OpCode {
     /**
      * Do nothing.
      */
@@ -210,7 +210,7 @@ class Instructions {
 
     static String[] computeNames() {
         String[] names = new String[0x100];
-        for (Field field : Instructions.class.getDeclaredFields()) {
+        for (Field field : OpCode.class.getDeclaredFields()) {
             if ("SIMPLE".equals(field.getName())) {
                 continue;
             }
