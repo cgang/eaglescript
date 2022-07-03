@@ -1,6 +1,6 @@
 package org.eaglescript.vm;
 
-import static org.eaglescript.vm.Instructions.*;
+import static org.eaglescript.vm.OpCode.*;
 import static org.eaglescript.vm.Operations.*;
 
 /**

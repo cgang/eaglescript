@@ -2,7 +2,7 @@ package org.eaglescript.vm;
 
 import java.io.PrintStream;
 
-import static org.eaglescript.vm.Instructions.*;
+import static org.eaglescript.vm.OpCode.*;
 
 /**
  * A {@link CodeSegment} represents a collection of executable instructions.

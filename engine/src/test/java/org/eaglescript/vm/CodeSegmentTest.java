@@ -2,8 +2,7 @@ package org.eaglescript.vm;
 
 import org.junit.jupiter.api.Test;
 
-import static org.eaglescript.vm.Instructions.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.eaglescript.vm.OpCode.*;
 
 class CodeSegmentTest {
     @Test

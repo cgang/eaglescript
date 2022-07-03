@@ -4,16 +4,16 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class InstructionsTest {
+class OpCodeTest {
     @Test
     void testNames() {
-        String[] names = Instructions.computeNames();
+        String[] names = OpCode.computeNames();
         for (int i = 0; i < names.length; i++) {
             if (names[i] != null) {
                 System.out.println(Integer.toHexString(i) + ": " + names[i]);
             }
         }
 
-        assertEquals("RETURN", Instructions.nameOf(0xEF));
+        assertEquals("RETURN", OpCode.nameOf(0xEF));
     }
 }
