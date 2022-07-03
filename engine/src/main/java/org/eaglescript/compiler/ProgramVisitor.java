@@ -1,7 +1,9 @@
 package org.eaglescript.compiler;
 
+import org.antlr.v4.runtime.tree.TerminalNode;
 import org.eaglescript.lang.EagleScriptParser;
 import org.eaglescript.lang.EagleScriptParserBaseVisitor;
+import org.eaglescript.vm.OpCode;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -13,6 +15,7 @@ class ProgramVisitor extends EagleScriptParserBaseVisitor<CompilingResult> {
     private ModuleEnvironment module;
 
     private IdentifierTable identifierTable = new IdentifierTable();
+    private ConstantTable constantTable = new ConstantTable();
 
     ProgramVisitor(Compiler compiler, ModuleEnvironment env) {
         this.compiler = compiler;
@@ -42,6 +45,19 @@ class ProgramVisitor extends EagleScriptParserBaseVisitor<CompilingResult> {
     @Override
     public CompilingResult visitVariableDeclaration(EagleScriptParser.VariableDeclarationContext ctx) {
         throw new IllegalStateException("not implemented");
+    }
+
+    @Override
+    public CompilingResult visitNumericLiteral(EagleScriptParser.NumericLiteralContext ctx) {
+        CompilingResult result = defaultResult();
+        TerminalNode node = null;
+        if ((node = ctx.DecimalLiteral()) != null) {
+            double value = Double.parseDouble(node.getText());
+            return result.add(OpCode.LOAD_CONST, constantTable.put(value));
+        } else if ((node = ctx.OctalIntegerLiteral()) != null) {
+
+        }
+        return super.visitNumericLiteral(ctx);
     }
 
     @Override

@@ -114,8 +114,7 @@ DecimalLiteral:                 DecimalIntegerLiteral '.' [0-9] [0-9_]* Exponent
 /// Numeric Literals
 
 HexIntegerLiteral:              '0' [xX] [0-9a-fA-F] HexDigit*;
-OctalIntegerLiteral:            '0' [0-7]+ {!this.IsStrictMode()}?;
-OctalIntegerLiteral2:           '0' [oO] [0-7] [_0-7]*;
+OctalIntegerLiteral:            '0' [oO] [0-7] [_0-7]*;
 BinaryIntegerLiteral:           '0' [bB] [01] [_01]*;
 
 BigHexIntegerLiteral:           '0' [xX] [0-9a-fA-F] HexDigit* 'n';

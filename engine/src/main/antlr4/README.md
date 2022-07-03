@@ -14,3 +14,7 @@ See https://github.com/antlr/grammars-v4/blob/master/javascript/javascript/READM
 ## License
 
 All files under this folder are licensed under [MIT License](https://opensource.org/licenses/MIT).
+
+## Compatibility
+### Octal literals
+We only support octal literal starts with '0o', old style octal literals such as '0123' are not supported.
