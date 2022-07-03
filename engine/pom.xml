@@ -69,6 +69,7 @@
             </goals>
             <configuration>
               <sources>
+                <source>${basedir}/src/main/antlr4</source>
                 <source>${basedir}/target/generated-sources</source>
               </sources>
             </configuration>
