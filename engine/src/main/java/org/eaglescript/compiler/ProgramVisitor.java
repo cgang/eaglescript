@@ -50,14 +50,22 @@ class ProgramVisitor extends EagleScriptParserBaseVisitor<CompilingResult> {
     @Override
     public CompilingResult visitNumericLiteral(EagleScriptParser.NumericLiteralContext ctx) {
         CompilingResult result = defaultResult();
-        TerminalNode node = null;
+        TerminalNode node;
         if ((node = ctx.DecimalLiteral()) != null) {
-            double value = Double.parseDouble(node.getText());
+            double value = Double.parseDouble(node.getText().replaceAll("_", ""));
+            return result.add(OpCode.LOAD_CONST, constantTable.put(value));
+        } else if ((node = ctx.HexIntegerLiteral()) != null) {
+            double value = Long.parseLong(node.getText().substring(2).replaceAll("_", ""), 16);
             return result.add(OpCode.LOAD_CONST, constantTable.put(value));
         } else if ((node = ctx.OctalIntegerLiteral()) != null) {
-
+            double value = Long.parseLong(node.getText().substring(2).replaceAll("_", ""), 8);
+            return result.add(OpCode.LOAD_CONST, constantTable.put(value));
+        } else if ((node = ctx.BinaryIntegerLiteral()) != null) {
+            double value = Long.parseLong(node.getText().substring(2).replaceAll("_", ""), 2);
+            return result.add(OpCode.LOAD_CONST, constantTable.put(value));
+        } else {
+            throw new CompilationException("Unsupported numeric literal: " + ctx.getText());
         }
-        return super.visitNumericLiteral(ctx);
     }
 
     @Override
