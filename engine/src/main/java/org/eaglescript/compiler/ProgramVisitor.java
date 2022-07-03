@@ -48,6 +48,32 @@ class ProgramVisitor extends EagleScriptParserBaseVisitor<CompilingResult> {
     }
 
     @Override
+    public CompilingResult visitMultiplicativeExpression(EagleScriptParser.MultiplicativeExpressionContext ctx) {
+        CompilingResult result = super.visitMultiplicativeExpression(ctx);
+        if (ctx.Multiply() != null) {
+            return result.add(OpCode.MUL);
+        } else if (ctx.Divide() != null) {
+            return result.add(OpCode.DIV);
+        } else if (ctx.Modulus() != null) {
+            return result.add(OpCode.MOD);
+        } else {
+            throw new CompilationException("Unsupported multiplicative expression: " + ctx.getText());
+        }
+    }
+
+    @Override
+    public CompilingResult visitAdditiveExpression(EagleScriptParser.AdditiveExpressionContext ctx) {
+        CompilingResult result = super.visitAdditiveExpression(ctx);
+        if (ctx.Plus() != null) {
+            return result.add(OpCode.PLUS);
+        } else if (ctx.Minus() != null) {
+            return result.add(OpCode.SUB);
+        } else {
+            throw new CompilationException("Unsupported additive expression: " + ctx.getText());
+        }
+    }
+
+    @Override
     public CompilingResult visitNumericLiteral(EagleScriptParser.NumericLiteralContext ctx) {
         CompilingResult result = defaultResult();
         TerminalNode node;

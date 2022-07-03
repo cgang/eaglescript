@@ -115,6 +115,17 @@ public class OpCode {
      */
     public static final int DIV = 0x33;
     /**
+     * Arithmetic modulus.
+     * Format:
+     * <pre>MOD</pre>
+     * Operand stack:
+     * <pre>
+     * ..., value1, value2 ->
+     * ..., result
+     * </pre>
+     */
+    public static final int MOD = 0x34;
+    /**
      * Negate a number.
      * Format:
      * <pre>NEG</pre>
@@ -124,7 +135,7 @@ public class OpCode {
      * ..., result
      * </pre>
      */
-    public static final int NEG = 0x34;
+    public static final int NEG = 0x35;
     /**
      * Duplicate the top operand stack value.
      * Format:
@@ -135,7 +146,7 @@ public class OpCode {
      * ..., value, value
      * </pre>
      */
-    public static final int DUP = 0x35;
+    public static final int DUP = 0x40;
     /**
      * Duplicate the top operand stack value and insert two values down.
      * Format:
@@ -146,7 +157,7 @@ public class OpCode {
      * ..., value1, value2, value1
      * </pre>
      */
-    public static final int DUP_X1 = 0x36;
+    public static final int DUP_X1 = 0x41;
     /**
      * Duplicate the top operand stack value and insert three values down.
      * Format:
@@ -157,7 +168,7 @@ public class OpCode {
      * ..., value1, value3, value2, value1
      * </pre>
      */
-    public static final int DUP_X2 = 0x37;
+    public static final int DUP_X2 = 0x42;
     /**
      * Pop the top operand stack value.
      * Format:
@@ -168,7 +179,7 @@ public class OpCode {
      * ...,
      * </pre>
      */
-    public static final int POP = 0x38;
+    public static final int POP = 0x43;
     /**
      * Swap the top two operand stack values.
      * Format:
@@ -179,7 +190,7 @@ public class OpCode {
      * ..., value1, value2
      * </pre>
      */
-    public static final int SWAP = 0x39;
+    public static final int SWAP = 0x44;
 
     static final int SIMPLE = 0xA0;
 
