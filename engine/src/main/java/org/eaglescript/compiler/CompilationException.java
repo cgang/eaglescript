@@ -3,7 +3,7 @@ package org.eaglescript.compiler;
 /**
  * A {@link CompilationException} denote exception during compilation.
  */
-public class CompilationException extends Exception {
+public class CompilationException extends RuntimeException {
     private static final long serialVersionUID = 990705424926639741L;
 
     public CompilationException() {

@@ -1,4 +1,4 @@
 package org.eaglescript.compiler;
 
-public class FunctionEnvironment extends LexicalEnvironment {
+class FunctionEnvironment extends VariableEnvironment {
 }

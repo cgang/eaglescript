@@ -25,7 +25,7 @@ public class Compiler {
         EagleScriptParser parser = new EagleScriptParser(new CommonTokenStream(lexer));
 
         ModuleEnvironment moduleEnv = new ModuleEnvironment();
-        ProgramVisitor visitor = new ProgramVisitor(moduleEnv);
+        ProgramVisitor visitor = new ProgramVisitor(this, moduleEnv);
         EagleScriptParser.ProgramContext program = parser.program();
         CompilingResult result = visitor.visitProgram(program);
         return moduleEnv.assemble(result);

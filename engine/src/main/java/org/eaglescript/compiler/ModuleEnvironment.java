@@ -2,7 +2,7 @@ package org.eaglescript.compiler;
 
 import org.eaglescript.vm.CompiledScript;
 
-public class ModuleEnvironment extends LexicalEnvironment {
+class ModuleEnvironment extends VariableEnvironment {
     CompiledScript assemble(CompilingResult result) {
         return new CompiledScript();
     }
