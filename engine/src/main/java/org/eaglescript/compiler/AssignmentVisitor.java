@@ -71,6 +71,11 @@ class AssignmentVisitor extends EagleScriptParserBaseVisitor<CompilingResult> {
     }
 
     @Override
+    protected CompilingResult defaultResult() {
+        return new CompilingResult();
+    }
+
+    @Override
     public CompilingResult visitAssignable(EagleScriptParser.AssignableContext ctx) {
         if (ctx.identifier() != null) {
             String identifier = ctx.identifier().Identifier().getText();

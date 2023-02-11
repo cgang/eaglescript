@@ -1,5 +1,8 @@
 package org.eaglescript.compiler;
 
+import org.eaglescript.vm.CodeSegment;
+
+import java.nio.ByteBuffer;
 import java.util.*;
 
 class CompilingResult {
@@ -19,6 +22,22 @@ class CompilingResult {
     public CompilingResult add(int opcode, short operand) {
         this.tokens.add(OpToken.of(opcode, operand));
         return this;
+    }
+
+    private int size() {
+        int size = 0;
+        for (Token token : this.tokens) {
+            size += token.size();
+        }
+        return size;
+    }
+
+    CodeSegment toCodeSegment() {
+        ByteBuffer buffer = ByteBuffer.allocate(size());
+        for (Token token : this.tokens) {
+            token.appendTo(buffer);
+        }
+        return new CodeSegment(buffer.array());
     }
 
     int getOffset(PlaceHolder holder) {

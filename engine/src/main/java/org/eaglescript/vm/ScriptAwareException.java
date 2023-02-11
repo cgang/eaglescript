@@ -1,5 +1,8 @@
 package org.eaglescript.vm;
 
+/**
+ * A {@link ScriptAwareException} denote an exception to be processed by script.
+ */
 public class ScriptAwareException extends Exception {
     private static final long serialVersionUID = 2807318124635047963L;
 

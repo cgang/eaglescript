@@ -78,16 +78,16 @@ class ProgramVisitor extends EagleScriptParserBaseVisitor<CompilingResult> {
         CompilingResult result = defaultResult();
         TerminalNode node;
         if ((node = ctx.DecimalLiteral()) != null) {
-            double value = Double.parseDouble(node.getText().replaceAll("_", ""));
+            double value = Double.parseDouble(node.getText().replace("_", ""));
             return result.add(OpCode.LOAD_CONST, constantTable.put(value));
         } else if ((node = ctx.HexIntegerLiteral()) != null) {
-            double value = Long.parseLong(node.getText().substring(2).replaceAll("_", ""), 16);
+            double value = Long.parseLong(node.getText().substring(2).replace("_", ""), 16);
             return result.add(OpCode.LOAD_CONST, constantTable.put(value));
         } else if ((node = ctx.OctalIntegerLiteral()) != null) {
-            double value = Long.parseLong(node.getText().substring(2).replaceAll("_", ""), 8);
+            double value = Long.parseLong(node.getText().substring(2).replace("_", ""), 8);
             return result.add(OpCode.LOAD_CONST, constantTable.put(value));
         } else if ((node = ctx.BinaryIntegerLiteral()) != null) {
-            double value = Long.parseLong(node.getText().substring(2).replaceAll("_", ""), 2);
+            double value = Long.parseLong(node.getText().substring(2).replace("_", ""), 2);
             return result.add(OpCode.LOAD_CONST, constantTable.put(value));
         } else {
             throw new CompilationException("Unsupported numeric literal: " + ctx.getText());

@@ -1,9 +1,6 @@
 package org.eaglescript.util;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.module.SimpleModule;
@@ -85,7 +82,7 @@ public class JSONSupport {
                         object.set(key, array);
                         break;
                     default:
-                        System.out.println("Unknown: " + token);
+                        throw new JsonParseException(p, "Unknown token: " + token);
                 }
                 token = p.nextToken();
             }
@@ -149,7 +146,7 @@ public class JSONSupport {
                         array.add(object);
                         break;
                     default:
-                        System.out.println("Unknown token 2: " + token);
+                        throw new JsonParseException(p, "Unknown token: " + token);
                 }
                 token = p.nextToken();
             }

@@ -17,4 +17,4 @@ All files under this folder are licensed under [MIT License](https://opensource.
 
 ## Compatibility
 ### Octal literals
-We only support octal literal starts with '0o', old style octal literals such as '0123' are not supported.
+We only support octal literal starts with '0o' such as '0o123', old style octal literals such as '0123' are not supported.

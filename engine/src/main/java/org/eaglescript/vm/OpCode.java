@@ -192,7 +192,10 @@ public class OpCode {
      */
     public static final int SWAP = 0x44;
 
-    static final int SIMPLE = 0xA0;
+    /**
+     * A placeholder to separate flow control instructions from normal instructions.
+     */
+    static final int FLOW_CONTROL = 0xA0;
 
     /**
      * Invoke an invocable object with specified spec index.
@@ -237,10 +240,10 @@ public class OpCode {
             if (Modifier.isStatic(mod) && Modifier.isPublic(mod) && field.getType().equals(int.class)) {
                 try {
                     int value = field.getInt(null);
-                    if (value > 0 && value < names.length) {
+                    if (value >= 0 && value < names.length) {
                         names[value] = field.getName();
                     } else {
-                        throw new IllegalStateException("Invalid value: " + value);
+                        throw new IllegalStateException("Invalid value: " + field.getName() + " = " + value);
                     }
                 } catch (IllegalAccessException e) {
                     throw new RuntimeException(e);

@@ -20,7 +20,7 @@ public class ScriptExecutor {
     void execute(ScriptFrame frame) {
         while (true) {
             int opcode = frame.opcode();
-            if (opcode < SIMPLE) {
+            if (opcode < FLOW_CONTROL) {
                 executeSimple(frame, opcode);
             }
         }

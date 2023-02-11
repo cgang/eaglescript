@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-class ScriptFrame extends Frame implements Serializable {
+class ScriptFrame implements Frame, Serializable {
     private static final long serialVersionUID = -1627459082291792661L;
 
     private transient CompiledScript script;
@@ -69,5 +69,10 @@ class ScriptFrame extends Frame implements Serializable {
 
     Object pop() {
         return operandStack.remove(operandStack.size() - 1);
+    }
+
+    @Override
+    public StackTraceElement toStackTrace() {
+        return null;
     }
 }

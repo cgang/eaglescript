@@ -2,5 +2,6 @@ package org.eaglescript.vm;
 
 import java.io.Serializable;
 
-class Frame implements Serializable {
+interface Frame extends Serializable {
+    StackTraceElement toStackTrace();
 }

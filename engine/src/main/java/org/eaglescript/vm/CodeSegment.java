@@ -1,6 +1,7 @@
 package org.eaglescript.vm;
 
 import java.io.PrintStream;
+import java.util.Arrays;
 
 import static org.eaglescript.vm.OpCode.*;
 
@@ -42,13 +43,18 @@ public class CodeSegment {
             int pc = offset;
             int opcode = opcode(offset++);
             switch (opcode) {
-                case LOAD:
-                case STORE:
+                case PLUS:
                 case RETURN:
                     out.println(pc + "\t" + nameOf(opcode));
                     break;
-                default:
+                case LOAD:
+                case STORE:
+                case LOAD_CONST:
+                    out.println(pc + "\t" + nameOf(opcode) + "\t" + operand(offset));
+                    offset += 2;
                     break;
+                default:
+                    throw new RuntimeException("Unsupported opcode: " + nameOf(opcode));
             }
         }
     }

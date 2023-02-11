@@ -29,5 +29,6 @@ class CompilerTest {
     public void testSimple() throws CompilationException, IOException {
         CompiledScript s = compile("simple.egs");
         assertNotNull(s);
+        s.dump(System.out);
     }
 }
