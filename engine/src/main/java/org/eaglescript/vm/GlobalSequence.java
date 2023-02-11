@@ -7,11 +7,11 @@ import java.util.Enumeration;
 
 /**
  * {@link GlobalSequence} provides global sequence to be used as thread ID.
- * This is a modified version of snowflake algorithm, by choosing more bits for machine ID compare to original algorithm.
+ * This is a modified version of snowflake algorithm, by choosing more bits for timestamp compare to original algorithm.
  */
 class GlobalSequence {
-    private static final int TIME_BITS = 41;
-    private static final int SHARD_BITS = 12;
+    private static final int TIME_BITS = 43;
+    private static final int SHARD_BITS = 10;
     private static final int SEQ_BITS = 10;
 
     private static final long TIME_MASK = (1L << TIME_BITS) - 1;
