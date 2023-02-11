@@ -26,7 +26,7 @@ public class ScriptExecutor {
         this.thread = thread;
     }
 
-    void execute(ScriptFrame frame) {
+    Object execute(ScriptFrame frame) {
         while (true) {
             int opcode = frame.opcode();
             if (opcode < FLOW_CONTROL) {
@@ -46,10 +46,10 @@ public class ScriptExecutor {
                     throw new RuntimeException("unsupported target: " + target);
                 }
             } else if (opcode == RETURN) {
-                Object retValue = frame.pop();
+                Object retValue = frame.getReturn();
                 frame = thread.popStack();
                 if (frame == null) {
-                    return;
+                    return retValue;
                 }
 
                 frame.push(retValue);

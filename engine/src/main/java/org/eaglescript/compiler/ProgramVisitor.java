@@ -42,7 +42,9 @@ class ProgramVisitor extends EagleScriptParserBaseVisitor<CompilingResult> {
 
     @Override
     public CompilingResult visitProgram(EagleScriptParser.ProgramContext ctx) {
-        return super.visitProgram(ctx);
+        CompilingResult result = super.visitProgram(ctx);
+        result.add(OpCode.RETURN);
+        return result;
     }
 
     @Override

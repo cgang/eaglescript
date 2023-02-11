@@ -62,6 +62,14 @@ class ScriptFrame extends CodeVisitor implements Frame, Serializable {
         return operandStack.remove(operandStack.size() - 1);
     }
 
+    Object getReturn() {
+        if (operandStack.isEmpty()) {
+            return null;
+        }
+
+        return operandStack.remove(operandStack.size() - 1);
+    }
+
     Object[] popArgs(int n) {
         ArrayList<Object> objects = new ArrayList<>(n);
         for (int i = 0; i < n; i++) {
