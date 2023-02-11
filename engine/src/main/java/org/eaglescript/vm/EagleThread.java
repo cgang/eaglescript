@@ -2,9 +2,8 @@ package org.eaglescript.vm;
 
 import org.eaglescript.ScriptFunction;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.LinkedList;
 
 /**
  * A {@link EagleThread} represents a script thread for execution.
@@ -18,7 +17,7 @@ public class EagleThread {
 
     private GlobalObject globalObject;
 
-    private List<Frame> callStack;
+    private LinkedList<Frame> callStack;
 
     /**
      * Construct from a long thread ID.
@@ -27,7 +26,7 @@ public class EagleThread {
      */
     EagleThread(long id, CompiledScript script, GlobalObject object) {
         this.id = id;
-        this.callStack = new ArrayList<>();
+        this.callStack = new LinkedList<>();
         this.script = script;
         this.globalObject = object;
     }
@@ -55,5 +54,10 @@ public class EagleThread {
         callStack.add(frame);
         // TODO add support for arguments.
         return frame;
+    }
+
+    public ScriptFrame popStack() {
+        this.callStack.removeLast();
+        return (ScriptFrame) this.callStack.peekLast();
     }
 }

@@ -45,6 +45,14 @@ public class ScriptExecutor {
                 } else {
                     throw new RuntimeException("unsupported target: " + target);
                 }
+            } else if (opcode == RETURN) {
+                Object retValue = frame.pop();
+                frame = thread.popStack();
+                if (frame == null) {
+                    return;
+                }
+
+                frame.push(retValue);
             }
         }
     }
