@@ -10,9 +10,9 @@ import java.util.StringJoiner;
  */
 public class Console {
     @Exposed
-    public void log(Object[] arguments) {
+    public void log(Arguments arguments) {
         StringJoiner sj = new StringJoiner(" ");
-        for (Object arg : arguments) {
+        for (Object arg : arguments.toArray()) {
             sj.add(String.valueOf(arg));
         }
         System.out.println(sj);

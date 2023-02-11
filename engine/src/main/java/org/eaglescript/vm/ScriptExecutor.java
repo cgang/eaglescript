@@ -1,5 +1,7 @@
 package org.eaglescript.vm;
 
+import org.eaglescript.ScriptFunction;
+
 import static org.eaglescript.vm.OpCode.*;
 import static org.eaglescript.vm.Operations.*;
 
@@ -11,10 +13,17 @@ public class ScriptExecutor {
 
     /**
      * Get thread local executor instance.
+     *
      * @return the thread local executor, null if not found.
      */
     public static ScriptExecutor get() {
         return localExecutor.get();
+    }
+
+    private EagleThread thread;
+
+    public ScriptExecutor(EagleThread thread) {
+        this.thread = thread;
     }
 
     void execute(ScriptFrame frame) {
@@ -22,6 +31,20 @@ public class ScriptExecutor {
             int opcode = frame.opcode();
             if (opcode < FLOW_CONTROL) {
                 executeSimple(frame, opcode);
+            } else if (opcode == INVOKE) {
+                Object[] args = frame.popArgs(frame.operand());
+                Object target = frame.pop();
+                if (target instanceof ScriptFunction) {
+                    frame = thread.newStack((ScriptFunction) target, frame.getContext(), args);
+                } else if (target instanceof Callable) {
+                    try {
+                        ((Callable) target).invoke(args);
+                    } catch (ScriptAwareException e) {
+                        throw new RuntimeException(e);
+                    }
+                } else {
+                    throw new RuntimeException("unsupported target: " + target);
+                }
             }
         }
     }
@@ -51,6 +74,15 @@ public class ScriptExecutor {
                 break;
             case NEG:
                 frame.push(negate(frame.pop()));
+                break;
+            case GET:
+                frame.push(doGet(frame.pop(), frame.pop()));
+                break;
+            case SET:
+                doSet(frame.pop(), frame.pop(), frame.pop());
+                break;
+            case LOAD_CONST:
+                frame.push(frame.loadConst(frame.operand()));
                 break;
             default:
                 throw new IllegalStateException("Unsupported opcode: " + nameOf(opcode));

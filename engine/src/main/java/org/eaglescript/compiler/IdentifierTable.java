@@ -1,5 +1,6 @@
 package org.eaglescript.compiler;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -17,5 +18,13 @@ class IdentifierTable {
             map.put(identifier, index);
         }
         return index;
+    }
+
+    String[] toArray() {
+        ArrayList<String> identifiers = new ArrayList<>(map.size());
+        for (String id : map.keySet()) {
+            identifiers.add(id);
+        }
+        return identifiers.toArray(new String[0]);
     }
 }

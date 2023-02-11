@@ -3,7 +3,9 @@ package org.eaglescript.compiler;
 import org.eaglescript.ScriptNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ConstantTable {
     public static final short UNDEFINED = 0;
@@ -11,6 +13,7 @@ public class ConstantTable {
     public static final short NULL = 2;
 
     private List<Object> constants = new ArrayList<>();
+    private Map<Object, Short> offsetMap = new HashMap<>();
 
     ConstantTable() {
         constants.add(null);
@@ -18,15 +21,31 @@ public class ConstantTable {
         constants.add(ScriptNull.NULL);
     }
 
-    short put(String text) {
+    private short putValue(Object object) {
+        Short existing = offsetMap.get(object);
+        if (existing != null) {
+            return existing.shortValue();
+        }
+
         short offset = (short) constants.size();
-        constants.add(text);
+        constants.add(object);
+        offsetMap.put(object, Short.valueOf(offset));
         return offset;
     }
 
+    short put(String text) {
+        return putValue(text);
+    }
+
     short put(double value) {
-        short offset = (short) constants.size();
-        constants.add(value);
-        return offset;
+        return putValue(value);
+    }
+
+    short put(boolean value) {
+        return putValue(value);
+    }
+
+    Object[] toArray() {
+        return constants.toArray();
     }
 }

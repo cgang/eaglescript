@@ -2,30 +2,25 @@ package org.eaglescript;
 
 import org.eaglescript.vm.ScriptAwareException;
 
-import java.io.Serializable;
-
 /**
- * A {@link ScriptObject} represents base class for all object type.
+ * The {@link ScriptObject} defines object being accessed in script.
  */
-public abstract class ScriptObject implements Serializable {
-    private static final long serialVersionUID = -2523504278396839733L;
-
-    public static Object toJava(Object object, Class<?> type) throws ScriptAwareException {
-        if (object instanceof Double) {
-            return new ScriptNumber((Double) object).toJavaObject(type);
-        } else if (object instanceof ScriptObject) {
-            return ((ScriptObject) object).toJavaObject(type);
-        } else {
-            return object;
-        }
-    }
-
-    public Object get(Object key) {
+public interface ScriptObject {
+    /**
+     * Get a property of this script object.
+     * @param key a key could be an identifier, index number or symbol.
+     * @return the property, null if not found.
+     */
+    default Object get(Object key) {
         return null;
     }
 
-    public void set(Object key, Object value) {
-
+    /**
+     * Set a property for this script object.
+     * @param key a key could be an identifier, index number or symbol.
+     * @param value the property value to be set.
+     */
+    default void set(Object key, Object value) {
     }
 
     /**
@@ -33,7 +28,7 @@ public abstract class ScriptObject implements Serializable {
      * @param type the expected type to be returned.
      * @return an object representing this script object.
      */
-    public Object toJavaObject(Class<?> type) throws ScriptAwareException {
+    default Object toJavaObject(Class<?> type) throws ScriptAwareException {
         throw new UnsupportedOperationException("Not implemented");
     }
 }

@@ -1,9 +1,10 @@
 package org.eaglescript.compiler;
 
-import org.eaglescript.vm.CodeSegment;
-
 import java.nio.ByteBuffer;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.IdentityHashMap;
+import java.util.List;
+import java.util.Map;
 
 class CompilingResult {
     private List<Token> tokens = new ArrayList<>();
@@ -32,12 +33,12 @@ class CompilingResult {
         return size;
     }
 
-    CodeSegment toCodeSegment() {
+    byte[] toCode() {
         ByteBuffer buffer = ByteBuffer.allocate(size());
         for (Token token : this.tokens) {
             token.appendTo(buffer);
         }
-        return new CodeSegment(buffer.array());
+        return buffer.array();
     }
 
     int getOffset(PlaceHolder holder) {

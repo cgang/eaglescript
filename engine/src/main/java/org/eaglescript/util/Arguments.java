@@ -1,6 +1,6 @@
 package org.eaglescript.util;
 
-import org.eaglescript.ScriptObject;
+import org.eaglescript.JavaAdapter;
 import org.eaglescript.ScriptString;
 import org.eaglescript.vm.ScriptAwareException;
 
@@ -13,14 +13,20 @@ public class Arguments {
 
     /**
      * Construct from an array of arguments.
+     *
      * @param args an array of arguments.
      */
     public Arguments(Object[] args) {
         this.args = args;
     }
 
+    public Object[] toArray() {
+        return this.args;
+    }
+
     /**
      * Get next argument and increase the offset.
+     *
      * @return next argument.
      */
     public Object next() {
@@ -50,7 +56,7 @@ public class Arguments {
      * @throws ScriptAwareException if next argument is not available or incompatible type.
      */
     public Object next(Class<?> type) throws ScriptAwareException {
-        return ScriptObject.toJava(next(), type);
+        return JavaAdapter.toJava(next(), type);
     }
 
     /**

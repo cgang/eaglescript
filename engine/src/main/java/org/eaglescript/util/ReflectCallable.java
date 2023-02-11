@@ -1,6 +1,6 @@
 package org.eaglescript.util;
 
-import org.eaglescript.ScriptObject;
+import org.eaglescript.JavaAdapter;
 import org.eaglescript.vm.Callable;
 import org.eaglescript.vm.ScriptAwareException;
 
@@ -19,7 +19,7 @@ abstract class ReflectCallable implements Callable {
             Class<?>[] types = method.getParameterTypes();
             int len = Math.min(params.length, arguments.length);
             for (int i = 0; i < len; i++) {
-                params[i] = ScriptObject.toJava(arguments[i], types[i]);
+                params[i] = JavaAdapter.toJava(arguments[i], types[i]);
             }
             return params;
         }

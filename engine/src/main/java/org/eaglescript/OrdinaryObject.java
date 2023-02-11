@@ -1,7 +1,9 @@
 package org.eaglescript;
 
+import org.eaglescript.util.ReflectHelper;
 import org.eaglescript.vm.ScriptAwareException;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -11,7 +13,7 @@ import java.util.Map;
  * A {@link OrdinaryObject} represents an ordinary object.
  * @see <a href="https://262.ecma-international.org/6.0/#sec-ordinary-object">Ordinary Object</a>
  */
-public class OrdinaryObject extends ScriptObject {
+public class OrdinaryObject implements ScriptObject, Serializable {
     private static final long serialVersionUID = -5181082318222397790L;
 
     public static class Property {
@@ -70,7 +72,7 @@ public class OrdinaryObject extends ScriptObject {
     public Object toJavaObject(Class<?> type) throws ScriptAwareException {
         Map<String, Object> result = new LinkedHashMap<>();
         for (Map.Entry<String, Object> entry : map.entrySet()) {
-            result.put(entry.getKey(), ScriptObject.toJava(entry.getValue(), Object.class));
+            result.put(entry.getKey(), JavaAdapter.toJava(entry.getValue(), Object.class));
         }
         return result;
     }

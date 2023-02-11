@@ -5,9 +5,10 @@ import org.eaglescript.lang.EagleScriptParser;
 import org.eaglescript.lang.EagleScriptParserBaseVisitor;
 import org.eaglescript.vm.OpCode;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
+import static org.eaglescript.compiler.ConstantTable.NULL;
 
 class ProgramVisitor extends EagleScriptParserBaseVisitor<CompilingResult> {
     private final Compiler compiler;
@@ -31,6 +32,14 @@ class ProgramVisitor extends EagleScriptParserBaseVisitor<CompilingResult> {
         return envStack.getLast();
     }
 
+    Object[] getConstants() {
+        return constantTable.toArray();
+    }
+
+    String[] getIdentifiers() {
+        return identifierTable.toArray();
+    }
+
     @Override
     public CompilingResult visitProgram(EagleScriptParser.ProgramContext ctx) {
         return super.visitProgram(ctx);
@@ -45,6 +54,20 @@ class ProgramVisitor extends EagleScriptParserBaseVisitor<CompilingResult> {
     @Override
     public CompilingResult visitVariableDeclaration(EagleScriptParser.VariableDeclarationContext ctx) {
         throw new IllegalStateException("not implemented");
+    }
+
+    @Override
+    public CompilingResult visitIdentifierExpression(EagleScriptParser.IdentifierExpressionContext ctx) {
+        String identifier = ctx.identifier().getText();
+        return defaultResult().add(OpCode.LOAD, id(identifier));
+    }
+
+    @Override
+    public CompilingResult visitMemberDotExpression(EagleScriptParser.MemberDotExpressionContext ctx) {
+        CompilingResult result = ctx.singleExpression().accept(this);
+        String identifier = ctx.identifierName().identifier().getText();
+        return result.add(OpCode.LOAD_CONST, constantTable.put(identifier))
+                .add(OpCode.GET);
     }
 
     @Override
@@ -74,6 +97,22 @@ class ProgramVisitor extends EagleScriptParserBaseVisitor<CompilingResult> {
     }
 
     @Override
+    public CompilingResult visitLiteral(EagleScriptParser.LiteralContext ctx) {
+        TerminalNode node;
+        if (ctx.NullLiteral() != null) {
+            return defaultResult().add(OpCode.LOAD_CONST, NULL);
+        } else if ((node = ctx.BooleanLiteral()) != null) {
+            boolean value = Boolean.parseBoolean(node.getText());
+            return defaultResult().add(OpCode.LOAD_CONST, constantTable.put(value));
+        } else if ((node = ctx.StringLiteral()) != null) {
+            String value = node.getText();
+            return defaultResult().add(OpCode.LOAD_CONST, constantTable.put(value));
+        } else {
+            return super.visitChildren(ctx);
+        }
+    }
+
+    @Override
     public CompilingResult visitNumericLiteral(EagleScriptParser.NumericLiteralContext ctx) {
         CompilingResult result = defaultResult();
         TerminalNode node;
@@ -92,6 +131,23 @@ class ProgramVisitor extends EagleScriptParserBaseVisitor<CompilingResult> {
         } else {
             throw new CompilationException("Unsupported numeric literal: " + ctx.getText());
         }
+    }
+
+    @Override
+    public CompilingResult visitArgumentsExpression(EagleScriptParser.ArgumentsExpressionContext ctx) {
+        CompilingResult result = ctx.singleExpression().accept(this);
+        return result.append(this.visitArguments(ctx.arguments()));
+    }
+
+    @Override
+    public CompilingResult visitArguments(EagleScriptParser.ArgumentsContext ctx) {
+        CompilingResult result = defaultResult();
+        List<EagleScriptParser.ArgumentContext> arguments = ctx.argument();
+        for (EagleScriptParser.ArgumentContext arg : arguments) {
+            result.append(arg.accept(this));
+        }
+
+        return result.add(OpCode.INVOKE, (short) arguments.size());
     }
 
     @Override

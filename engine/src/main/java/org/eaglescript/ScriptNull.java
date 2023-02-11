@@ -1,6 +1,8 @@
 package org.eaglescript;
 
-public class ScriptNull extends ScriptObject {
+import java.io.Serializable;
+
+public class ScriptNull implements ScriptObject, Serializable {
     public static final ScriptNull NULL = new ScriptNull();
 
     private ScriptNull() {

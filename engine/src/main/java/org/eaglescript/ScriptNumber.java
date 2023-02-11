@@ -1,8 +1,9 @@
 package org.eaglescript;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class ScriptNumber extends ScriptObject {
+public class ScriptNumber implements ScriptObject, Serializable {
     public static boolean isNumber(Object object) {
         return object instanceof Double || object instanceof ScriptNumber;
     }

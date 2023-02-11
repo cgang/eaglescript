@@ -5,14 +5,20 @@ import java.io.PrintStream;
 public class CompiledScript {
     private String[] identifiers;
 
-    private CodeSegment mainCode;
+    private final CodeSegment mainCode;
 
-    public CompiledScript(CodeSegment mainCode) {
+    public CompiledScript(CodeSegment mainCode, String[] identifiers) {
         this.mainCode = mainCode;
+        this.identifiers = identifiers;
+    }
+
+    public CodeSegment code() {
+        return mainCode;
     }
 
     /**
      * Resolve an index to identifier.
+     *
      * @param index the index of identifier.
      * @return an identifier
      * @throws IllegalStateException if the index is not valid.

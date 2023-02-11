@@ -1,11 +1,12 @@
 package org.eaglescript;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * A {@link ScriptString} represents a string object.
  */
-public class ScriptString extends ScriptObject {
+public class ScriptString implements ScriptObject, Serializable {
     private static final long serialVersionUID = 1041585289831197894L;
 
     public static boolean isString(Object object) {

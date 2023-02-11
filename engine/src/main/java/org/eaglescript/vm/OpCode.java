@@ -193,17 +193,41 @@ public class OpCode {
     public static final int SWAP = 0x44;
 
     /**
+     * Get property of an object.
+     * Format:
+     * <pre>GET</pre>
+     * Operand stack:
+     * <pre>
+     * ..., object, key ->
+     * ..., value
+     * </pre>
+     */
+    public static final int GET = 0x50;
+
+    /**
+     * Set property of an object.
+     * Format:
+     * <pre>SET</pre>
+     * Operand stack:
+     * <pre>
+     * ..., object, key, value ->
+     * ...,
+     * </pre>
+     */
+    public static final int SET = 0x51;
+
+    /**
      * A placeholder to separate flow control instructions from normal instructions.
      */
     static final int FLOW_CONTROL = 0xA0;
 
     /**
-     * Invoke an invocable object with specified spec index.
+     * Invoke an invocable object with specified number of arguments.
      * Format:
-     * <pre>INVOKE index</pre>
+     * <pre>INVOKE count</pre>
      * Operand stack:
      * <pre>
-     * ..., arg_N, ..., arg_0
+     * ..., target, arg_0, ..., arg_N
      * ...,
      * </pre>
      */

@@ -1,7 +1,10 @@
 package org.eaglescript.util;
 
 import org.eaglescript.Exposed;
+import org.eaglescript.ScriptNumber;
+import org.eaglescript.ScriptObject;
 import org.eaglescript.vm.Callable;
+import org.eaglescript.vm.ScriptAwareException;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -27,6 +30,7 @@ public class ReflectHelper {
     static ReflectHelper createHelper(Class<?> clazz) {
         return new ReflectHelper(clazz);
     }
+
 
 
     private Class<?> clazz;
