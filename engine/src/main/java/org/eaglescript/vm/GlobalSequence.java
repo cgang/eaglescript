@@ -36,7 +36,7 @@ class GlobalSequence {
 
                 byte[] hwAddr;
                 if ((hwAddr = iface.getHardwareAddress()) != null) {
-                    machineId ^= ByteBuffer.wrap(hwAddr).hashCode();
+                    machineId = 31 * machineId + ByteBuffer.wrap(hwAddr).hashCode();
                 }
             }
         } catch (SocketException e) {
