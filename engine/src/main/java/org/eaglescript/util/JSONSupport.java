@@ -5,10 +5,7 @@ import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-import org.eaglescript.ArrayObject;
-import org.eaglescript.OrdinaryObject;
-import org.eaglescript.ScriptNull;
-import org.eaglescript.ScriptNumber;
+import org.eaglescript.*;
 import org.eaglescript.vm.ScriptAwareException;
 
 import java.io.IOException;
@@ -17,7 +14,7 @@ import java.io.IOException;
  * The {@link JSONSupport} provides basic JSON related support for script.
  * It's intended to be exposed as 'JSON' to script.
  */
-public class JSONSupport {
+public class JSONSupport implements ScriptObject {
     static class OrdinaryObjectSerializer extends StdSerializer<OrdinaryObject> {
         OrdinaryObjectSerializer() {
             super(OrdinaryObject.class);
@@ -172,6 +169,7 @@ public class JSONSupport {
         arrayReader = mapper.readerFor(ArrayObject.class);
     }
 
+    @Exposed
     public String stringify(Object object) throws ScriptAwareException {
         try {
             return mapper.writeValueAsString(object);
@@ -180,6 +178,7 @@ public class JSONSupport {
         }
     }
 
+    @Exposed
     public Object parse(String json) throws ScriptAwareException {
         try {
             JsonNode tree = mapper.reader().readTree(json);

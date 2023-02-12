@@ -52,15 +52,6 @@ public class JavaAdapter implements ScriptObject {
     }
 
     @Override
-    public Object get(Object key) {
-        if (ScriptString.isString(key)) {
-            return helper.get(target, key.toString());
-        }
-
-        return null;
-    }
-
-    @Override
     public void set(Object key, Object value) {
         throw new UnsupportedOperationException("set is not supported for java object");
     }

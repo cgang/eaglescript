@@ -1,5 +1,6 @@
 package org.eaglescript;
 
+import org.eaglescript.util.ReflectHelper;
 import org.eaglescript.vm.ScriptAwareException;
 
 /**
@@ -12,7 +13,11 @@ public interface ScriptObject {
      * @return the property, null if not found.
      */
     default Object get(Object key) {
-        return null;
+        if (key == null) {
+            return null;
+        }
+
+        return ReflectHelper.of(this.getClass()).get(this, key.toString());
     }
 
     /**

@@ -49,10 +49,10 @@ public class EagleThread {
         return frame;
     }
 
-    public ScriptFrame start(CompiledScript script, Object[] args) {
+    public ScriptFrame start(CompiledScript script) {
         ScriptFrame frame = new ScriptFrame(script, new GlobalContext(globalObject), script.code());
         callStack.add(frame);
-        // TODO add support for arguments.
+        // TODO add support for arguments?
         return frame;
     }
 

@@ -18,14 +18,10 @@ public class DefaultScriptEngine implements ScriptEngine {
     }
 
     @Override
-    public EagleThread start(CompiledScript script, Object[] arguments, Bindings bindings) {
-        if (bindings == null) {
-            bindings = Bindings.newDefault();
-        }
-        
+    public EagleThread start(CompiledScript script, Bindings bindings) {
         EagleThread thread = new EagleThread(GlobalSequence.nextId(), script, new GlobalObject(bindings));
         ScriptExecutor executor = new ScriptExecutor(thread);
-        ScriptFrame frame = thread.start(script, arguments);
+        ScriptFrame frame = thread.start(script);
         executor.execute(frame);
 
         return thread;

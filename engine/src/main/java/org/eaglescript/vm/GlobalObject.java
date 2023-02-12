@@ -6,18 +6,15 @@ import org.eaglescript.ScriptObject;
 import org.eaglescript.ScriptString;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.Map;
 
 public class GlobalObject implements ScriptObject, Serializable {
     private static final long serialVersionUID = 4003630082749681697L;
 
-    private Map<String, ScriptObject> properties = new HashMap<>();
+    private Map<String, ScriptObject> properties;
 
     public GlobalObject(Bindings bindings) {
-        for (Map.Entry<String, Object> binding : bindings.entries()) {
-            properties.put(binding.getKey(), JavaAdapter.adapt(binding.getValue()));
-        }
+        this.properties = bindings.toScriptObjects();
     }
 
     @Override
