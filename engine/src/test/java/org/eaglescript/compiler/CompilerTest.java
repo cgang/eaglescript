@@ -28,4 +28,11 @@ class CompilerTest {
         assertNotNull(s);
         s.dump(System.out);
     }
+
+    @Test
+    public void testIfElse() throws IOException {
+        CompiledScript s = compile("ifelse.egs");
+        assertNotNull(s);
+        s.dump(System.out);
+    }
 }

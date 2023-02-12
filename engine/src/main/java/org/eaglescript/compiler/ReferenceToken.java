@@ -3,7 +3,7 @@ package org.eaglescript.compiler;
 import java.nio.ByteBuffer;
 
 public class ReferenceToken extends Token {
-    private static final int SIZE = Byte.BYTES + Short.BYTES;
+    private static final int SIZE = Byte.BYTES * 3;
     private int opcode;
     private PlaceHolder target;
 
@@ -13,7 +13,7 @@ public class ReferenceToken extends Token {
     }
 
     OpToken resolve(int offset, CompilingResult result) {
-        int off = result.getOffset(target) - (offset + SIZE);
+        int off = result.getOffset(target) - offset;
         return OpToken.of(opcode, (short) off);
     }
 

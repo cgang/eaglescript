@@ -14,7 +14,7 @@ public class OpCode {
 
     /**
      * Load reference from variable.
-     * Format:
+     * Syntax:
      * <pre>LOAD index</pre>
      * Operand stack:
      * <pre>
@@ -23,9 +23,10 @@ public class OpCode {
      * </pre>
      */
     public static final int LOAD = 0x10;
+
     /**
      * Store reference to variable.
-     * Format:
+     * Syntax:
      * <pre>STORE index</pre>
      * Operand stack:
      * <pre>
@@ -37,7 +38,7 @@ public class OpCode {
 
     /**
      * Load a constant value.
-     * Format:
+     * Syntax:
      * <pre>LOAD_CONST index</pre>
      * Operand stack:
      * <pre>
@@ -46,21 +47,42 @@ public class OpCode {
      * </pre>
      */
     public static final int LOAD_CONST = 0x12;
+
     /**
      * Goto code position with specified offset.
-     * Format:
+     * Syntax:
      * <pre>GOTO offset</pre>
      * Operand stack unaffected.
      */
     public static final int GOTO = 0x20;
 
+    /**
+     * Goto code position with specified offset when operand is true.
+     * Syntax:
+     * <pre>IF_TRUE offset</pre>
+     * Operand stack:
+     * <pre>
+     * ..., bool ->
+     * ...,
+     * </pre>
+     */
     public static final int IF_TRUE = 0x21;
 
+    /**
+     * Goto code position with specified offset when operand is false.
+     * Syntax:
+     * <pre>IF_FALSE offset</pre>
+     * Operand stack:
+     * <pre>
+     * ..., bool ->
+     * ...,
+     * </pre>
+     */
     public static final int IF_FALSE = 0x22;
 
     /**
      * Un-determined plus operation, concatenation or arithmetic addition.
-     * Format:
+     * Syntax:
      * <pre>PLUS</pre>
      * Operand stack:
      * <pre>
@@ -72,7 +94,7 @@ public class OpCode {
 
     /**
      * Arithmetic addition.
-     * Format:
+     * Syntax:
      * <pre>ADD</pre>
      * Operand stack:
      * <pre>
@@ -81,9 +103,10 @@ public class OpCode {
      * </pre>
      */
     public static final int ADD = 0x30;
+
     /**
      * Arithmetic subtraction.
-     * Format:
+     * Syntax:
      * <pre>SUB</pre>
      * Operand stack:
      * <pre>
@@ -92,9 +115,10 @@ public class OpCode {
      * </pre>
      */
     public static final int SUB = 0x31;
+
     /**
      * Arithmetic multiplication.
-     * Format:
+     * Syntax:
      * <pre>MUL</pre>
      * Operand stack:
      * <pre>
@@ -103,9 +127,10 @@ public class OpCode {
      * </pre>
      */
     public static final int MUL = 0x32;
+
     /**
      * Arithmetic division.
-     * Format:
+     * Syntax:
      * <pre>DIV</pre>
      * Operand stack:
      * <pre>
@@ -114,9 +139,10 @@ public class OpCode {
      * </pre>
      */
     public static final int DIV = 0x33;
+
     /**
      * Arithmetic modulus.
-     * Format:
+     * Syntax:
      * <pre>MOD</pre>
      * Operand stack:
      * <pre>
@@ -125,9 +151,10 @@ public class OpCode {
      * </pre>
      */
     public static final int MOD = 0x34;
+
     /**
      * Negate a number.
-     * Format:
+     * Syntax:
      * <pre>NEG</pre>
      * Operand stack:
      * <pre>
@@ -136,9 +163,58 @@ public class OpCode {
      * </pre>
      */
     public static final int NEG = 0x35;
+
+    /**
+     * Bitwise AND operation.
+     * Syntax:
+     * <pre>AND</pre>
+     * Operand stack:
+     * <pre>
+     * ..., value1, value2 ->
+     * ..., result
+     * </pre>
+     */
+    public static final int AND = 0x36;
+
+    /**
+     * Bitwise OR operation.
+     * Syntax:
+     * <pre>OR</pre>
+     * Operand stack:
+     * <pre>
+     * ..., value1, value2 ->
+     * ..., result
+     * </pre>
+     */
+    public static final int OR = 0x37;
+
+    /**
+     * Bitwise XOR operation.
+     * Syntax:
+     * <pre>XOR</pre>
+     * Operand stack:
+     * <pre>
+     * ..., value1, value2 ->
+     * ..., result
+     * </pre>
+     */
+    public static final int XOR = 0x38;
+
+    /**
+     * Bitwise NOT operation.
+     * Syntax:
+     * <pre>NOT</pre>
+     * Operand stack:
+     * <pre>
+     * ..., value ->
+     * ..., result
+     * </pre>
+     */
+    public static final int NOT = 0x39;
+
     /**
      * Duplicate the top operand stack value.
-     * Format:
+     * Syntax:
      * <pre>DUP</pre>
      * Operand stack:
      * <pre>
@@ -147,9 +223,10 @@ public class OpCode {
      * </pre>
      */
     public static final int DUP = 0x40;
+
     /**
      * Duplicate the top operand stack value and insert two values down.
-     * Format:
+     * Syntax:
      * <pre>DUP_X1</pre>
      * Operand stack:
      * <pre>
@@ -158,9 +235,10 @@ public class OpCode {
      * </pre>
      */
     public static final int DUP_X1 = 0x41;
+
     /**
      * Duplicate the top operand stack value and insert three values down.
-     * Format:
+     * Syntax:
      * <pre>DUP_X2</pre>
      * Operand stack:
      * <pre>
@@ -169,9 +247,10 @@ public class OpCode {
      * </pre>
      */
     public static final int DUP_X2 = 0x42;
+
     /**
      * Pop the top operand stack value.
-     * Format:
+     * Syntax:
      * <pre>POP</pre>
      * Operand stack:
      * <pre>
@@ -180,9 +259,10 @@ public class OpCode {
      * </pre>
      */
     public static final int POP = 0x43;
+
     /**
      * Swap the top two operand stack values.
-     * Format:
+     * Syntax:
      * <pre>SWAP</pre>
      * Operand stack:
      * <pre>
@@ -194,7 +274,7 @@ public class OpCode {
 
     /**
      * Get property of an object.
-     * Format:
+     * Syntax:
      * <pre>GET</pre>
      * Operand stack:
      * <pre>
@@ -206,11 +286,11 @@ public class OpCode {
 
     /**
      * Set property of an object.
-     * Format:
+     * Syntax:
      * <pre>SET</pre>
      * Operand stack:
      * <pre>
-     * ..., object, key, value ->
+     * ..., value, object, key ->
      * ...,
      * </pre>
      */
@@ -223,7 +303,7 @@ public class OpCode {
 
     /**
      * Invoke an invocable object with specified number of arguments.
-     * Format:
+     * Syntax:
      * <pre>INVOKE count</pre>
      * Operand stack:
      * <pre>
@@ -235,7 +315,7 @@ public class OpCode {
 
     /**
      * Throw an error.
-     * Format:
+     * Syntax:
      * <pre>THROW</pre>
      * Operand stack:
      * <pre>
@@ -247,7 +327,7 @@ public class OpCode {
     public static final int THROW = 0xA2;
     /**
      * Return to caller.
-     * Format:
+     * Syntax:
      * <pre>RETURN</pre>
      * <pre>
      * ..., objectref ->

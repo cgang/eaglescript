@@ -16,7 +16,7 @@ class ProgramVisitor extends EagleScriptParserBaseVisitor<CompilingResult> {
     private ModuleEnvironment module;
 
     private IdentifierTable identifierTable = new IdentifierTable();
-    private ConstantTable constantTable = new ConstantTable();
+    ConstantTable constantTable = new ConstantTable();
 
     ProgramVisitor(Compiler compiler, ModuleEnvironment env) {
         this.compiler = compiler;
@@ -51,6 +51,12 @@ class ProgramVisitor extends EagleScriptParserBaseVisitor<CompilingResult> {
     public CompilingResult visitVariableDeclarationList(EagleScriptParser.VariableDeclarationListContext ctx) {
         AssignmentVisitor visitor = AssignmentVisitor.of(this, peek(), ctx.varModifier());
         return visitor.visitVariableDeclarationList(ctx);
+    }
+
+    @Override
+    public CompilingResult visitAssignmentExpression(EagleScriptParser.AssignmentExpressionContext ctx) {
+        AssignmentExpressionVisitor visitor = new AssignmentExpressionVisitor(this, peek());
+        return visitor.visitAssignmentExpression(ctx);
     }
 
     @Override
@@ -133,6 +139,28 @@ class ProgramVisitor extends EagleScriptParserBaseVisitor<CompilingResult> {
         } else {
             throw new CompilationException("Unsupported numeric literal: " + ctx.getText());
         }
+    }
+
+    @Override
+    public CompilingResult visitIfStatement(EagleScriptParser.IfStatementContext ctx) {
+        CompilingResult result = ctx.expressionSequence().accept(this);
+        EagleScriptParser.StatementContext ifClause = ctx.statement(0);
+        EagleScriptParser.StatementContext elseClause = ctx.statement(1);
+
+        PlaceHolder end = new PlaceHolder("end");
+        if (elseClause == null) {
+            result.addRef(OpCode.IF_FALSE, end);
+            result = this.aggregateResult(result, ifClause.accept(this));
+        } else {
+            PlaceHolder otherwise = new PlaceHolder("else");
+            result.addRef(OpCode.IF_FALSE, otherwise);
+            result = this.aggregateResult(result, ifClause.accept(this));
+            result.addRef(OpCode.GOTO, end)
+                    .add(otherwise);
+            result = this.aggregateResult(result, elseClause.accept(this));
+        }
+
+        return result.add(end);
     }
 
     @Override

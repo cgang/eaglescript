@@ -57,6 +57,10 @@ public class CodeSegment {
                 case MUL:
                 case DIV:
                 case NEG:
+                case AND:
+                case OR:
+                case XOR:
+                case NOT:
                 case GET:
                 case SET:
                 case RETURN:
@@ -69,6 +73,9 @@ public class CodeSegment {
                 case LOAD_CONST:
                     out.println(pc + "\t" + nameOf(opcode) + "\t" + getConst(visitor.operand()));
                     break;
+                case GOTO:
+                case IF_TRUE:
+                case IF_FALSE:
                 case INVOKE:
                     out.println(pc + "\t" + nameOf(opcode) + "\t" + visitor.operand());
                     break;

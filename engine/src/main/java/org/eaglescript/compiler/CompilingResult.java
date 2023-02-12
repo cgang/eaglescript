@@ -16,13 +16,20 @@ class CompilingResult {
     }
 
     public CompilingResult add(int opcode) {
-        this.tokens.add(OpToken.of(opcode));
-        return this;
+        return this.add(OpToken.of(opcode));
     }
 
     public CompilingResult add(int opcode, short operand) {
-        this.tokens.add(OpToken.of(opcode, operand));
+        return this.add(OpToken.of(opcode, operand));
+    }
+
+    public CompilingResult add(Token token) {
+        this.tokens.add(token);
         return this;
+    }
+
+    public CompilingResult addRef(int opcode, PlaceHolder holder) {
+        return this.add(new ReferenceToken(opcode, holder));
     }
 
     private int size() {
@@ -34,11 +41,24 @@ class CompilingResult {
     }
 
     byte[] toCode() {
+        resolve();
         ByteBuffer buffer = ByteBuffer.allocate(size());
         for (Token token : this.tokens) {
             token.appendTo(buffer);
         }
         return buffer.array();
+    }
+
+    void resolve() {
+        int offset = 0;
+        for (int i = 0; i < tokens.size(); i++) {
+            Token token = tokens.get(i);
+            offset += token.size();
+            if (token instanceof ReferenceToken) {
+                token = ((ReferenceToken) token).resolve(offset, this);
+                tokens.set(i, token);
+            }
+        }
     }
 
     int getOffset(PlaceHolder holder) {
