@@ -4,11 +4,11 @@ import org.eaglescript.lang.EagleScriptParser;
 import org.eaglescript.lang.EagleScriptParserBaseVisitor;
 import org.eaglescript.vm.OpCode;
 
-class AssignmentExpressionVisitor extends EagleScriptParserBaseVisitor<CompilingResult> {
+class AssignmentVisitor extends EagleScriptParserBaseVisitor<CompilingResult> {
     private final ProgramVisitor visitor;
     private final LexicalEnvironment env;
 
-    public AssignmentExpressionVisitor(ProgramVisitor visitor, LexicalEnvironment env) {
+    public AssignmentVisitor(ProgramVisitor visitor, LexicalEnvironment env) {
         this.visitor = visitor;
         this.env = env;
     }

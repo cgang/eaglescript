@@ -55,7 +55,7 @@ class ProgramVisitor extends EagleScriptParserBaseVisitor<CompilingResult> {
 
     @Override
     public CompilingResult visitAssignmentExpression(EagleScriptParser.AssignmentExpressionContext ctx) {
-        AssignmentExpressionVisitor visitor = new AssignmentExpressionVisitor(this, peek());
+        AssignmentVisitor visitor = new AssignmentVisitor(this, peek());
         return visitor.visitAssignmentExpression(ctx);
     }
 
