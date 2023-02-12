@@ -78,6 +78,12 @@ class ScriptFrame extends CodeVisitor implements Frame, Serializable {
         return objects.toArray();
     }
 
+    void jump(short offset, boolean condition) {
+        if (condition) {
+            this.jump(offset);
+        }
+    }
+
     @Override
     public StackTraceElement toStackTrace() {
         return null;

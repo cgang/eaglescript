@@ -14,6 +14,11 @@ public class ScriptNull implements ScriptObject, Serializable {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        return obj instanceof ScriptNull;
+    }
+
+    @Override
     public String toString() {
         return "null";
     }

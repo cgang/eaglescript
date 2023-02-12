@@ -1,5 +1,6 @@
 package org.eaglescript.vm;
 
+import org.eaglescript.ScriptBoolean;
 import org.eaglescript.ScriptFunction;
 
 import static org.eaglescript.vm.OpCode.*;
@@ -92,8 +93,18 @@ public class ScriptExecutor {
             case LOAD_CONST:
                 frame.push(frame.loadConst(frame.operand()));
                 break;
+            case GOTO:
+                frame.jump(frame.operand());
+                break;
+            case IF_FALSE:
+                frame.jump(frame.operand(), !ScriptBoolean.valueOf(frame.pop()));
+                break;
+            case IF_TRUE:
+                frame.jump(frame.operand(), ScriptBoolean.valueOf(frame.pop()));
+                break;
             default:
                 throw new IllegalStateException("Unsupported opcode: " + nameOf(opcode));
         }
     }
+
 }

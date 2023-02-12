@@ -15,4 +15,15 @@ public class RunTest {
         CompiledScript script = engine.compile("simple.egs");
         engine.start(script, null, null);
     }
+
+    @Test
+    public void testIfElse() throws IOException {
+        ResourceLoader loader = new ClassResourceLoader(RunTest.class);
+
+        ScriptEngine engine = new DefaultScriptEngine(loader);
+
+        CompiledScript script = engine.compile("ifelse.egs");
+        engine.start(script, null, null);
+    }
+
 }

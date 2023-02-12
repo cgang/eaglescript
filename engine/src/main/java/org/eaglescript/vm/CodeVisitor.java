@@ -39,4 +39,13 @@ class CodeVisitor {
     Object loadConst(short index) {
         return text.getConst(index);
     }
+
+    /**
+     * Move program counter with specified offset.
+     *
+     * @param offset the offset to be added to program counter.
+     */
+    void jump(short offset) {
+        this.pc += offset;
+    }
 }
