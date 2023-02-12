@@ -105,6 +105,41 @@ class ProgramVisitor extends EagleScriptParserBaseVisitor<CompilingResult> {
     }
 
     @Override
+    public CompilingResult visitUnaryMinusExpression(EagleScriptParser.UnaryMinusExpressionContext ctx) {
+        CompilingResult result = ctx.singleExpression().accept(this);
+        return result.add(OpCode.NEG);
+    }
+
+    @Override
+    public CompilingResult visitUnaryPlusExpression(EagleScriptParser.UnaryPlusExpressionContext ctx) {
+        return super.visitUnaryPlusExpression(ctx);
+    }
+
+    @Override
+    public CompilingResult visitBitAndExpression(EagleScriptParser.BitAndExpressionContext ctx) {
+        CompilingResult result = super.visitBitAndExpression(ctx);
+        return result.add(OpCode.BIT_AND);
+    }
+
+    @Override
+    public CompilingResult visitBitOrExpression(EagleScriptParser.BitOrExpressionContext ctx) {
+        CompilingResult result = super.visitBitOrExpression(ctx);
+        return result.add(OpCode.BIT_OR);
+    }
+
+    @Override
+    public CompilingResult visitBitXOrExpression(EagleScriptParser.BitXOrExpressionContext ctx) {
+        CompilingResult result = super.visitBitXOrExpression(ctx);
+        return result.add(OpCode.BIT_XOR);
+    }
+
+    @Override
+    public CompilingResult visitBitNotExpression(EagleScriptParser.BitNotExpressionContext ctx) {
+        CompilingResult result = ctx.singleExpression().accept(this);
+        return result.add(OpCode.BIT_NOT);
+    }
+
+    @Override
     public CompilingResult visitLiteral(EagleScriptParser.LiteralContext ctx) {
         TerminalNode node;
         if (ctx.NullLiteral() != null) {
@@ -138,6 +173,71 @@ class ProgramVisitor extends EagleScriptParserBaseVisitor<CompilingResult> {
             return result.add(OpCode.LOAD_CONST, constantTable.put(value));
         } else {
             throw new CompilationException("Unsupported numeric literal: " + ctx.getText());
+        }
+    }
+
+    @Override
+    public CompilingResult visitLogicalAndExpression(EagleScriptParser.LogicalAndExpressionContext ctx) {
+        // TODO support operator precedence
+        PlaceHolder no = new PlaceHolder("no");
+        PlaceHolder end = new PlaceHolder("end");
+        return ctx.singleExpression(0).accept(this)
+                .addRef(OpCode.IF_FALSE, no)
+                .append(ctx.singleExpression(1).accept(this))
+                .addRef(OpCode.IF_FALSE, no)
+                .add(OpCode.LOAD_CONST, ConstantTable.TRUE)
+                .addRef(OpCode.GOTO, end)
+                .add(no)
+                .add(OpCode.LOAD_CONST, ConstantTable.FALSE)
+                .add(end);
+    }
+
+    @Override
+    public CompilingResult visitLogicalOrExpression(EagleScriptParser.LogicalOrExpressionContext ctx) {
+        // TODO support operator precedence
+        PlaceHolder yes = new PlaceHolder("yes");
+        PlaceHolder end = new PlaceHolder("end");
+
+        return ctx.singleExpression(0).accept(this)
+                .addRef(OpCode.IF_TRUE, yes)
+                .append(ctx.singleExpression(1).accept(this))
+                .addRef(OpCode.IF_TRUE, yes)
+                .add(OpCode.LOAD_CONST, ConstantTable.FALSE)
+                .addRef(OpCode.GOTO, end)
+                .add(yes)
+                .add(OpCode.LOAD_CONST, ConstantTable.TRUE)
+                .add(end);
+    }
+
+    @Override
+    public CompilingResult visitRelationalExpression(EagleScriptParser.RelationalExpressionContext ctx) {
+        CompilingResult result = super.visitRelationalExpression(ctx);
+        if (ctx.LessThan() != null) {
+            return result.add(OpCode.CMP_LT);
+        } else if (ctx.MoreThan() != null) {
+            return result.add(OpCode.CMP_GT);
+        } else if (ctx.LessThanEquals() != null) {
+            return result.add(OpCode.CMP_LE);
+        } else if (ctx.GreaterThanEquals() != null) {
+            return result.add(OpCode.CMP_GE);
+        } else {
+            throw new RuntimeException("Unsupported relational expression: " + ctx.getText());
+        }
+    }
+
+    @Override
+    public CompilingResult visitEqualityExpression(EagleScriptParser.EqualityExpressionContext ctx) {
+        CompilingResult result = super.visitEqualityExpression(ctx);
+        if (ctx.Equals_() != null) {
+            return result.add(OpCode.EQUAL);
+        } else if (ctx.NotEquals() != null) {
+            return result.add(OpCode.NOT_EQUAL);
+        } else if (ctx.IdentityEquals() != null) {
+            return result.add(OpCode.S_EQUAL);
+        } else if (ctx.IdentityNotEquals() != null) {
+            return result.add(OpCode.S_NOT_EQUAL);
+        } else {
+            throw new RuntimeException("Unsupported equality expression: " + ctx.getText());
         }
     }
 

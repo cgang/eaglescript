@@ -60,6 +60,8 @@ public class ScriptExecutor {
 
     private void executeSimple(ScriptFrame frame, int opcode) {
         switch (opcode) {
+            case NOP:
+                break;
             case LOAD:
                 frame.push(frame.get(frame.operand()));
                 break;
@@ -74,6 +76,9 @@ public class ScriptExecutor {
                 break;
             case S_EQUAL:
                 frame.push(strictEqual(frame.pop(), frame.pop()));
+                break;
+            case S_NOT_EQUAL:
+                frame.push(!strictEqual(frame.pop(), frame.pop()));
                 break;
             case CMP_LT:
                 frame.push(lessThan(frame.pop(), frame.pop()));
@@ -104,6 +109,18 @@ public class ScriptExecutor {
                 break;
             case NEG:
                 frame.push(negate(frame.pop()));
+                break;
+            case BIT_AND:
+                frame.push(bitAnd(frame.pop(), frame.pop()));
+                break;
+            case BIT_OR:
+                frame.push(bitOr(frame.pop(), frame.pop()));
+                break;
+            case BIT_XOR:
+                frame.push(bitXOr(frame.pop(), frame.pop()));
+                break;
+            case BIT_NOT:
+                frame.push(bitNot(frame.pop(), frame.pop()));
                 break;
             case GET:
                 frame.push(doGet(frame.pop(), frame.pop()));

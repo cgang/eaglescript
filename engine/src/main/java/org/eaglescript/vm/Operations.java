@@ -37,6 +37,22 @@ class Operations {
         return -(Double) value;
     }
 
+    static Double bitAnd(Object right, Object left) {
+        return (double) ((long) asNumber(left) & (long) asNumber(right));
+    }
+
+    static Double bitOr(Object right, Object left) {
+        return (double) ((long) asNumber(left) & (long) asNumber(right));
+    }
+
+    static Double bitXOr(Object right, Object left) {
+        return (double) ((long) asNumber(left) & (long) asNumber(right));
+    }
+
+    static Double bitNot(Object right, Object left) {
+        return (double) ((long) asNumber(left) & (long) asNumber(right));
+    }
+
     static boolean equal(Object value2, Object value1) {
         if (Objects.equals(value1, value2)) {
             return true;

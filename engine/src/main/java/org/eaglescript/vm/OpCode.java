@@ -117,6 +117,18 @@ public class OpCode {
     public static final int S_EQUAL = 0x25;
 
     /**
+     * Check if value1 is strictly not equal to value2.
+     * Syntax:
+     * <pre>S_NOT_EQUAL</pre>
+     * Operand stack:
+     * <pre>
+     * ..., value1, value2
+     * ..., bool
+     * </pre>
+     */
+    public static final int S_NOT_EQUAL = 0x26;
+
+    /**
      * Check if value1 is less than value2.
      * Syntax:
      * <pre>CMP_LT</pre>
@@ -126,7 +138,7 @@ public class OpCode {
      * ..., bool
      * </pre>
      */
-    public static final int CMP_LT = 0x26;
+    public static final int CMP_LT = 0x27;
 
     /**
      * Check if value1 is less than or equal to value2.
@@ -138,7 +150,7 @@ public class OpCode {
      * ..., bool
      * </pre>
      */
-    public static final int CMP_LE = 0x27;
+    public static final int CMP_LE = 0x28;
 
     /**
      * Check if value1 is greater than value2.
@@ -150,7 +162,7 @@ public class OpCode {
      * ..., bool
      * </pre>
      */
-    public static final int CMP_GT = 0x28;
+    public static final int CMP_GT = 0x29;
 
     /**
      * Check if value1 is greater than or equal to value2.
@@ -162,7 +174,7 @@ public class OpCode {
      * ..., bool
      * </pre>
      */
-    public static final int CMP_GE = 0x29;
+    public static final int CMP_GE = 0x2A;
 
     /**
      * Un-determined plus operation, concatenation or arithmetic addition.
@@ -251,50 +263,50 @@ public class OpCode {
     /**
      * Bitwise AND operation.
      * Syntax:
-     * <pre>AND</pre>
+     * <pre>BIT_AND</pre>
      * Operand stack:
      * <pre>
      * ..., value1, value2 ->
      * ..., result
      * </pre>
      */
-    public static final int AND = 0x36;
+    public static final int BIT_AND = 0x36;
 
     /**
      * Bitwise OR operation.
      * Syntax:
-     * <pre>OR</pre>
+     * <pre>BIT_OR</pre>
      * Operand stack:
      * <pre>
      * ..., value1, value2 ->
      * ..., result
      * </pre>
      */
-    public static final int OR = 0x37;
+    public static final int BIT_OR = 0x37;
 
     /**
      * Bitwise XOR operation.
      * Syntax:
-     * <pre>XOR</pre>
+     * <pre>BIT_XOR</pre>
      * Operand stack:
      * <pre>
      * ..., value1, value2 ->
      * ..., result
      * </pre>
      */
-    public static final int XOR = 0x38;
+    public static final int BIT_XOR = 0x38;
 
     /**
      * Bitwise NOT operation.
      * Syntax:
-     * <pre>NOT</pre>
+     * <pre>BIT_NOT</pre>
      * Operand stack:
      * <pre>
      * ..., value ->
      * ..., result
      * </pre>
      */
-    public static final int NOT = 0x39;
+    public static final int BIT_NOT = 0x39;
 
     /**
      * Duplicate the top operand stack value.

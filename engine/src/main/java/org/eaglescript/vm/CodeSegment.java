@@ -64,10 +64,10 @@ public class CodeSegment {
                 case MUL:
                 case DIV:
                 case NEG:
-                case AND:
-                case OR:
-                case XOR:
-                case NOT:
+                case BIT_AND:
+                case BIT_OR:
+                case BIT_XOR:
+                case BIT_NOT:
                 case GET:
                 case SET:
                 case RETURN:

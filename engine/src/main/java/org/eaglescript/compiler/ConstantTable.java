@@ -12,6 +12,9 @@ public class ConstantTable {
     public static final short ZERO = 1;
     public static final short NULL = 2;
 
+    public static final short FALSE = 3;
+    public static final short TRUE = 4;
+
     private List<Object> constants = new ArrayList<>();
     private Map<Object, Short> offsetMap = new HashMap<>();
 
@@ -19,6 +22,8 @@ public class ConstantTable {
         constants.add(null);
         constants.add(0.0D);
         constants.add(ScriptNull.NULL);
+        constants.add(Boolean.FALSE);
+        constants.add(Boolean.TRUE);
     }
 
     private short putValue(Object object) {
