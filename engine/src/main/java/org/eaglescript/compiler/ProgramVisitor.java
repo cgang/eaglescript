@@ -49,7 +49,7 @@ class ProgramVisitor extends EagleScriptParserBaseVisitor<CompilingResult> {
 
     @Override
     public CompilingResult visitVariableDeclarationList(EagleScriptParser.VariableDeclarationListContext ctx) {
-        AssignmentVisitor visitor = AssignmentVisitor.of(this, peek(), ctx.varModifier());
+        DeclarationVisitor visitor = DeclarationVisitor.of(this, peek(), ctx.varModifier());
         return visitor.visitVariableDeclarationList(ctx);
     }
 

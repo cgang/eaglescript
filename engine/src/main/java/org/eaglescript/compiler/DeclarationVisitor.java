@@ -6,8 +6,8 @@ import org.eaglescript.vm.OpCode;
 
 import static org.eaglescript.compiler.ConstantTable.UNDEFINED;
 
-class AssignmentVisitor extends EagleScriptParserBaseVisitor<CompilingResult> {
-    static class VariableDeclarationVisitor extends AssignmentVisitor {
+class DeclarationVisitor extends EagleScriptParserBaseVisitor<CompilingResult> {
+    static class VariableDeclarationVisitor extends DeclarationVisitor {
         VariableDeclarationVisitor(ProgramVisitor visitor, LexicalEnvironment env) {
             super(visitor, env);
         }
@@ -20,7 +20,7 @@ class AssignmentVisitor extends EagleScriptParserBaseVisitor<CompilingResult> {
     }
 
 
-    static class LexicalDeclarationVisitor extends AssignmentVisitor {
+    static class LexicalDeclarationVisitor extends DeclarationVisitor {
         LexicalDeclarationVisitor(ProgramVisitor visitor, LexicalEnvironment env) {
             super(visitor, env);
         }
@@ -32,7 +32,7 @@ class AssignmentVisitor extends EagleScriptParserBaseVisitor<CompilingResult> {
         }
     }
 
-    static class ConstDeclarationVisitor extends AssignmentVisitor {
+    static class ConstDeclarationVisitor extends DeclarationVisitor {
         ConstDeclarationVisitor(ProgramVisitor visitor, LexicalEnvironment env) {
             super(visitor, env);
         }
@@ -45,7 +45,7 @@ class AssignmentVisitor extends EagleScriptParserBaseVisitor<CompilingResult> {
         }
     }
 
-    static AssignmentVisitor of(ProgramVisitor visitor, LexicalEnvironment env, EagleScriptParser.VarModifierContext ctx) {
+    static DeclarationVisitor of(ProgramVisitor visitor, LexicalEnvironment env, EagleScriptParser.VarModifierContext ctx) {
         if (ctx.Var() != null) {
             return new VariableDeclarationVisitor(visitor, env);
         } else if (ctx.let_() != null) {
@@ -60,7 +60,7 @@ class AssignmentVisitor extends EagleScriptParserBaseVisitor<CompilingResult> {
     protected final ProgramVisitor visitor;
     protected final LexicalEnvironment env;
 
-    AssignmentVisitor(ProgramVisitor visitor, LexicalEnvironment env) {
+    DeclarationVisitor(ProgramVisitor visitor, LexicalEnvironment env) {
         this.visitor = visitor;
         this.env = env;
     }
