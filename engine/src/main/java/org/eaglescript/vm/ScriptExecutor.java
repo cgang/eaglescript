@@ -66,6 +66,27 @@ public class ScriptExecutor {
             case STORE:
                 frame.put(frame.operand(), frame.pop());
                 break;
+            case EQUAL:
+                frame.push(equal(frame.pop(), frame.pop()));
+                break;
+            case NOT_EQUAL:
+                frame.push(!equal(frame.pop(), frame.pop()));
+                break;
+            case S_EQUAL:
+                frame.push(strictEqual(frame.pop(), frame.pop()));
+                break;
+            case CMP_LT:
+                frame.push(lessThan(frame.pop(), frame.pop()));
+                break;
+            case CMP_LE:
+                frame.push(lessThanOrEqual(frame.pop(), frame.pop()));
+                break;
+            case CMP_GT:
+                frame.push(greaterThan(frame.pop(), frame.pop()));
+                break;
+            case CMP_GE:
+                frame.push(greaterThanOrEqual(frame.pop(), frame.pop()));
+                break;
             case PLUS:
                 frame.push(plus(frame.pop(), frame.pop()));
                 break;

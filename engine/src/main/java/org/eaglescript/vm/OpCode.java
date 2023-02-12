@@ -81,6 +81,90 @@ public class OpCode {
     public static final int IF_FALSE = 0x22;
 
     /**
+     * Check if value1 is equal to value2.
+     * Syntax:
+     * <pre>EQUAL</pre>
+     * Operand stack:
+     * <pre>
+     * ..., value1, value2
+     * ..., bool
+     * </pre>
+     */
+    public static final int EQUAL = 0x23;
+
+    /**
+     * Check if value1 is not equal to value2.
+     * Syntax:
+     * <pre>NOT_EQUAL</pre>
+     * Operand stack:
+     * <pre>
+     * ..., value1, value2
+     * ..., bool
+     * </pre>
+     */
+    public static final int NOT_EQUAL = 0x24;
+
+    /**
+     * Check if value1 is strictly equal to value2.
+     * Syntax:
+     * <pre>S_EQUAL</pre>
+     * Operand stack:
+     * <pre>
+     * ..., value1, value2
+     * ..., bool
+     * </pre>
+     */
+    public static final int S_EQUAL = 0x25;
+
+    /**
+     * Check if value1 is less than value2.
+     * Syntax:
+     * <pre>CMP_LT</pre>
+     * Operand stack:
+     * <pre>
+     * ..., value1, value2
+     * ..., bool
+     * </pre>
+     */
+    public static final int CMP_LT = 0x26;
+
+    /**
+     * Check if value1 is less than or equal to value2.
+     * Syntax:
+     * <pre>CMP_LE</pre>
+     * Operand stack:
+     * <pre>
+     * ..., value1, value2
+     * ..., bool
+     * </pre>
+     */
+    public static final int CMP_LE = 0x27;
+
+    /**
+     * Check if value1 is greater than value2.
+     * Syntax:
+     * <pre>CMP_GT</pre>
+     * Operand stack:
+     * <pre>
+     * ..., value1, value2
+     * ..., bool
+     * </pre>
+     */
+    public static final int CMP_GT = 0x28;
+
+    /**
+     * Check if value1 is greater than or equal to value2.
+     * Syntax:
+     * <pre>CMP_GE</pre>
+     * Operand stack:
+     * <pre>
+     * ..., value1, value2
+     * ..., bool
+     * </pre>
+     */
+    public static final int CMP_GE = 0x29;
+
+    /**
      * Un-determined plus operation, concatenation or arithmetic addition.
      * Syntax:
      * <pre>PLUS</pre>

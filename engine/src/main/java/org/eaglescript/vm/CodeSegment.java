@@ -51,6 +51,13 @@ public class CodeSegment {
         while ((pc = visitor.programCounter()) < code.length) {
             int opcode = visitor.opcode();
             switch (opcode) {
+                case EQUAL:
+                case NOT_EQUAL:
+                case S_EQUAL:
+                case CMP_LT:
+                case CMP_LE:
+                case CMP_GT:
+                case CMP_GE:
                 case PLUS:
                 case ADD:
                 case SUB:
