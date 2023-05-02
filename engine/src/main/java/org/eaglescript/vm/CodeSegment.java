@@ -10,10 +10,12 @@ import static org.eaglescript.vm.OpCode.*;
 public class CodeSegment {
     private final byte[] code;
     private final Object[] constants;
+    private String[] identifiers;
 
-    public CodeSegment(byte[] code, Object[] constants) {
+    public CodeSegment(byte[] code, Object[] constants, String[] identifiers) {
         this.code = code;
         this.constants = constants;
+        this.identifiers = identifiers;
     }
 
     /**
@@ -38,6 +40,17 @@ public class CodeSegment {
 
     Object getConst(short index) {
         return constants[index];
+    }
+
+    /**
+     * Resolve an index to identifier.
+     *
+     * @param index the index of identifier.
+     * @return an identifier
+     * @throws IllegalStateException if the index is not valid.
+     */
+    public String resolve(short index) {
+        return identifiers[index & 0xFFFF];
     }
 
     /**
@@ -75,10 +88,13 @@ public class CodeSegment {
                     break;
                 case LOAD:
                 case STORE:
-                    out.println(pc + "\t" + nameOf(opcode) + "\t$" + visitor.operand());
+                    out.println(pc + "\t" + nameOf(opcode) + "\t$" + resolve(visitor.operand()));
                     break;
                 case LOAD_CONST:
                     out.println(pc + "\t" + nameOf(opcode) + "\t" + getConst(visitor.operand()));
+                    break;
+                case LOAD_FUNC:
+                    out.println(pc + "\t" + nameOf(opcode) + "\t%" + visitor.operand());
                     break;
                 case GOTO:
                 case IF_TRUE:

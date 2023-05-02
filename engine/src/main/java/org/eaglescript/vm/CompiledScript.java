@@ -3,31 +3,35 @@ package org.eaglescript.vm;
 import java.io.PrintStream;
 
 public class CompiledScript {
-    private String[] identifiers;
 
     private final CodeSegment mainCode;
 
-    public CompiledScript(CodeSegment mainCode, String[] identifiers) {
+    private CompiledFunction[] functions;
+
+    public CompiledScript(CodeSegment mainCode, CompiledFunction[] functions) {
         this.mainCode = mainCode;
-        this.identifiers = identifiers;
+        this.functions = functions;
     }
 
     public CodeSegment code() {
         return mainCode;
     }
 
-    /**
-     * Resolve an index to identifier.
-     *
-     * @param index the index of identifier.
-     * @return an identifier
-     * @throws IllegalStateException if the index is not valid.
-     */
-    public String resolve(short index) {
-        return identifiers[index & 0xFFFF];
+
+    CompiledFunction getFunction(short index) {
+        return functions[index];
+    }
+
+    String resolve(short index) {
+        return mainCode.resolve(index);
     }
 
     public void dump(PrintStream out) {
+        out.println("==== main ====");
         mainCode.dump(out);
+        for (int i = 0; i < functions.length; i++) {
+            out.println("---- function " + i + " ----");
+            functions[i].getCode().dump(out);
+        }
     }
 }

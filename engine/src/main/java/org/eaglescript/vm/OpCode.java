@@ -49,6 +49,18 @@ public class OpCode {
     public static final int LOAD_CONST = 0x12;
 
     /**
+     * Load a script function.
+     * Syntax:
+     * <pre>LOAD_FUNC index</pre>
+     * Operand stack:
+     * <pre>
+     * ..., ->
+     * ..., function
+     * </pre>
+     */
+    public static final int LOAD_FUNC = 0x13;
+
+    /**
      * Goto code position with specified offset.
      * Syntax:
      * <pre>GOTO offset</pre>

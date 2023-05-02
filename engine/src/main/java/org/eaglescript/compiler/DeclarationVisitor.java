@@ -45,6 +45,18 @@ class DeclarationVisitor extends EagleScriptParserBaseVisitor<CompilingResult> {
         }
     }
 
+    static class ParameterDeclarationVisitor extends DeclarationVisitor {
+        ParameterDeclarationVisitor(ProgramVisitor visitor, LexicalEnvironment env) {
+            super(visitor, env);
+        }
+
+        @Override
+        protected short resolve(String name) throws CompilationException {
+            env.declareVariable(name);
+            return visitor.id(name);
+        }
+    }
+
     static DeclarationVisitor of(ProgramVisitor visitor, LexicalEnvironment env, EagleScriptParser.VarModifierContext ctx) {
         if (ctx.Var() != null) {
             return new VariableDeclarationVisitor(visitor, env);
@@ -55,6 +67,10 @@ class DeclarationVisitor extends EagleScriptParserBaseVisitor<CompilingResult> {
         } else {
             throw new CompilationException("Unknown context: " + ctx.getText());
         }
+    }
+
+    static DeclarationVisitor forParameter(ProgramVisitor visitor, LexicalEnvironment env) {
+        return new ParameterDeclarationVisitor(visitor, env);
     }
 
     protected final ProgramVisitor visitor;
@@ -101,5 +117,23 @@ class DeclarationVisitor extends EagleScriptParserBaseVisitor<CompilingResult> {
         }
         result.append(this.visitAssignable(ctx.assignable()));
         return result;
+    }
+
+    @Override
+    public CompilingResult visitFormalParameterArg(EagleScriptParser.FormalParameterArgContext ctx) {
+        // TODO add support for default value
+        return this.visitAssignable(ctx.assignable());
+    }
+
+    @Override
+    public CompilingResult visitLastFormalParameterArg(EagleScriptParser.LastFormalParameterArgContext ctx) {
+        EagleScriptParser.SingleExpressionContext singleExpr = ctx.singleExpression();
+        if (singleExpr instanceof EagleScriptParser.IdentifierExpressionContext) {
+            String identifier = ((EagleScriptParser.IdentifierExpressionContext) singleExpr).identifier().getText();
+            short index = resolve(identifier);
+            return defaultResult().add(OpCode.STORE, index);
+        } else {
+            throw new CompilationException("Unsupported last parameter: " + ctx.getText());
+        }
     }
 }

@@ -35,4 +35,11 @@ class CompilerTest {
         assertNotNull(s);
         s.dump(System.out);
     }
+
+    @Test
+    public void testFunction() throws IOException {
+        CompiledScript s = compile("function.egs");
+        assertNotNull(s);
+        s.dump(System.out);
+    }
 }

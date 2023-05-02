@@ -45,7 +45,7 @@ public class EagleThread {
         callStack.add(frame);
 
         args = Arrays.copyOf(args, function.argCount());
-        frame.push(args);
+        frame.pushArgs(args);
         return frame;
     }
 

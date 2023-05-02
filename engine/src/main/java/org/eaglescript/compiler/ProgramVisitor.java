@@ -65,6 +65,57 @@ class ProgramVisitor extends EagleScriptParserBaseVisitor<CompilingResult> {
     }
 
     @Override
+    public CompilingResult visitFunctionDeclaration(EagleScriptParser.FunctionDeclarationContext ctx) {
+        EagleScriptParser.FormalParameterListContext paramList = ctx.formalParameterList();
+
+        LexicalEnvironment env = peek();
+        FunctionEnvironment funcEnv = new FunctionEnvironment(paramList.formalParameterArg().size(), paramList.lastFormalParameterArg() != null);
+        envStack.push(funcEnv);
+
+        funcEnv.merge(paramList.accept(this));
+        funcEnv.merge(ctx.functionBody().accept(this));
+
+        short idx = module.addFunction(funcEnv);
+        envStack.pop();
+
+        String identifier = ctx.identifier().getText();
+        env.declareVariable(identifier);
+        CompilingResult result = new CompilingResult();
+        result.add(OpCode.LOAD_FUNC, idx);
+        result.add(OpCode.STORE, this.id(identifier));
+        return result;
+    }
+
+    @Override
+    public CompilingResult visitFormalParameterList(EagleScriptParser.FormalParameterListContext ctx) {
+        LexicalEnvironment env = peek();
+        DeclarationVisitor visitor = DeclarationVisitor.forParameter(this, env);
+
+        CompilingResult result = defaultResult();
+        for (EagleScriptParser.FormalParameterArgContext argCtx : ctx.formalParameterArg()) {
+            result.append(visitor.visitFormalParameterArg(argCtx));
+        }
+        EagleScriptParser.LastFormalParameterArgContext lastArg = ctx.lastFormalParameterArg();
+        if (lastArg != null) {
+            result.append(visitor.visitLastFormalParameterArg(lastArg));
+        }
+
+        return result;
+    }
+
+    @Override
+    public CompilingResult visitFunctionBody(EagleScriptParser.FunctionBodyContext ctx) {
+        return super.visitFunctionBody(ctx);
+    }
+
+    @Override
+    public CompilingResult visitReturnStatement(EagleScriptParser.ReturnStatementContext ctx) {
+        CompilingResult result = ctx.expressionSequence().accept(this);
+        result.add(OpCode.RETURN);
+        return result;
+    }
+
+    @Override
     public CompilingResult visitIdentifierExpression(EagleScriptParser.IdentifierExpressionContext ctx) {
         String identifier = ctx.identifier().getText();
         return defaultResult().add(OpCode.LOAD, id(identifier));
@@ -148,7 +199,7 @@ class ProgramVisitor extends EagleScriptParserBaseVisitor<CompilingResult> {
             boolean value = Boolean.parseBoolean(node.getText());
             return defaultResult().add(OpCode.LOAD_CONST, constantTable.put(value));
         } else if ((node = ctx.StringLiteral()) != null) {
-            String value = node.getText();
+            String value = node.getText(); // TODO escape the text
             return defaultResult().add(OpCode.LOAD_CONST, constantTable.put(value));
         } else {
             return super.visitChildren(ctx);

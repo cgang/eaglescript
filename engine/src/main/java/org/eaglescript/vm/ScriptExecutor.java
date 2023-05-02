@@ -131,6 +131,9 @@ public class ScriptExecutor {
             case LOAD_CONST:
                 frame.push(frame.loadConst(frame.operand()));
                 break;
+            case LOAD_FUNC:
+                frame.push(frame.loadFunc(frame.operand()));
+                break;
             case GOTO:
                 frame.jump(frame.operand());
                 break;

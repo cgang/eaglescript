@@ -1,5 +1,7 @@
 package org.eaglescript.vm;
 
+import org.eaglescript.ScriptFunction;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +40,11 @@ class ScriptFrame extends CodeVisitor implements Frame, Serializable {
         return context;
     }
 
+    ScriptFunction loadFunc(short index) {
+        CompiledFunction func = script.getFunction(index);
+        return new ScriptFunction(func.getCode(), func.getArgCount());
+    }
+
     /**
      * Put a binding to execution context.
      *
@@ -55,6 +62,17 @@ class ScriptFrame extends CodeVisitor implements Frame, Serializable {
     void push(Object[] objects) {
         for (Object obj : objects) {
             operandStack.add(obj);
+        }
+    }
+
+    /**
+     * Push arguments for function.
+     *
+     * @param args arguments for invocation.
+     */
+    void pushArgs(Object[] args) {
+        for (int i = args.length - 1; i >= 0; i--) {
+            operandStack.add(args[i]);
         }
     }
 
