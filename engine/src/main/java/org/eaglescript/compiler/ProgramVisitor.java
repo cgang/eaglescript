@@ -1,5 +1,7 @@
 package org.eaglescript.compiler;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import org.eaglescript.lang.EagleScriptParser;
 import org.eaglescript.lang.EagleScriptParserBaseVisitor;
@@ -11,12 +13,15 @@ import java.util.List;
 import static org.eaglescript.compiler.ConstantTable.NULL;
 
 class ProgramVisitor extends EagleScriptParserBaseVisitor<CompilingResult> {
+    private static ObjectMapper objectMapper = new ObjectMapper();
+
     private final Compiler compiler;
     private final LinkedList<LexicalEnvironment> envStack = new LinkedList<>();
     private ModuleEnvironment module;
 
     private IdentifierTable identifierTable = new IdentifierTable();
     ConstantTable constantTable = new ConstantTable();
+
 
     ProgramVisitor(Compiler compiler, ModuleEnvironment env) {
         this.compiler = compiler;
@@ -199,10 +204,18 @@ class ProgramVisitor extends EagleScriptParserBaseVisitor<CompilingResult> {
             boolean value = Boolean.parseBoolean(node.getText());
             return defaultResult().add(OpCode.LOAD_CONST, constantTable.put(value));
         } else if ((node = ctx.StringLiteral()) != null) {
-            String value = node.getText(); // TODO escape the text
+            String value = unescape(node.getText());
             return defaultResult().add(OpCode.LOAD_CONST, constantTable.put(value));
         } else {
             return super.visitChildren(ctx);
+        }
+    }
+
+    private static String unescape(String text) {
+        try {
+            return objectMapper.readValue(text, String.class);
+        } catch (JsonProcessingException e) {
+            throw new CompilationException("Malformed text: " + text);
         }
     }
 
