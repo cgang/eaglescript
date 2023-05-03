@@ -7,24 +7,27 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 
 public class RunTest {
-    @Test
-    public void testSimple() throws IOException {
+    private static void runScript(String name) throws IOException {
         ResourceLoader loader = new ClassResourceLoader(RunTest.class);
 
         ScriptEngine engine = new DefaultScriptEngine(loader);
 
-        CompiledScript script = engine.compile("simple.egs");
+        CompiledScript script = engine.compile(name);
         engine.start(script, Bindings.newDefault());
+    }
+
+    @Test
+    public void testSimple() throws IOException {
+        runScript("simple.egs");
     }
 
     @Test
     public void testIfElse() throws IOException {
-        ResourceLoader loader = new ClassResourceLoader(RunTest.class);
-
-        ScriptEngine engine = new DefaultScriptEngine(loader);
-
-        CompiledScript script = engine.compile("ifelse.egs");
-        engine.start(script, Bindings.newDefault());
+        runScript("ifelse.egs");
     }
 
+    @Test
+    public void testFunction() throws IOException {
+        runScript("function.egs");
+    }
 }
